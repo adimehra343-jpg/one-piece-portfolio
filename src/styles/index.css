@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Cinzel+Decorative:wght@700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-cream: #FDFBF7;
+  --color-ocean: #1E3A5F;
+  --color-navy: #080D1A;
+  --color-sunset: #FF7A30;
+  --color-gold: #F59E0B;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: #080D1A;
+  color: #F8FAFC;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+/* Custom Typography Utility */
+.font-serif {
+  font-family: 'Cinzel', serif;
+}
+
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Screen Bounce when Luffy Grabs Meat at Bottom */
+@keyframes screenBounce {
+  0% { transform: translateY(0); }
+  20% { transform: translateY(-10px) scale(1.002); }
+  40% { transform: translateY(8px) scale(0.998); }
+  60% { transform: translateY(-4px); }
+  80% { transform: translateY(2px); }
+  100% { transform: translateY(0); }
+}
+
+.screen-bounce-active {
+  animation: screenBounce 0.65s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+/* Zoro's Sword Slash Streak Animation */
+@keyframes slashStreak {
+  0% {
+    opacity: 0;
+    transform: translate(-100%, -100%) rotate(-45deg) scaleX(0.2);
+  }
+  30% {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(-45deg) scaleX(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(50%, 50%) rotate(-45deg) scaleX(1.4);
+  }
+}
+
+/* Gold Shimmer effect for victory banner */
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Hide standard scrollbar so Luffy's Stretching Arm takes center stage */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #080D1A;
+}
+::-webkit-scrollbar-thumb {
+  background: #1E293B;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #F59E0B;
+}
+
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

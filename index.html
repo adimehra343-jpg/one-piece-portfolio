@@ -1,0 +1,2488 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aditya Mehra • AI Engineer & Full-Stack Developer | The Grand Line Voyage</title>
+  <meta name="description" content="Interactive One Piece-inspired developer portfolio of Aditya Mehra — Computer Science student specializing in AI, deep neural systems, and modern full-stack web architectures." />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="./public/favicon.svg" />
+
+  <!-- Google Fonts: Cinzel, Plus Jakarta Sans, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Cinzel+Decorative:wght@700;900&family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN for instant zero-config rendering -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#FDFBF7',
+            ocean: {
+              light: '#2B5876',
+              DEFAULT: '#1E3A5F',
+              dark: '#0E1A2B'
+            },
+            navy: {
+              DEFAULT: '#080D1A',
+              deep: '#04070D'
+            },
+            sunset: {
+              orange: '#FF7A30',
+              red: '#E85A2A',
+              amber: '#F59E0B'
+            }
+          },
+          fontFamily: {
+            serif: ['Cinzel', 'Georgia', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- React 18, ReactDOM, and Babel for standalone runtime -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    :root {
+      --color-cream: #FDFBF7;
+      --color-ocean: #1E3A5F;
+      --color-navy: #080D1A;
+      --color-sunset: #FF7A30;
+      --color-gold: #F59E0B;
+    }
+
+    body {
+      background-color: #080D1A;
+      color: #F8FAFC;
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Screen Bounce when Luffy Grabs Giant Meat at Bottom */
+    @keyframes screenBounce {
+      0% { transform: translateY(0); }
+      20% { transform: translateY(-12px) scale(1.002); }
+      40% { transform: translateY(10px) scale(0.998); }
+      60% { transform: translateY(-5px); }
+      80% { transform: translateY(2px); }
+      100% { transform: translateY(0); }
+    }
+
+    .screen-bounce-active {
+      animation: screenBounce 0.7s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    }
+
+    /* Zoro's Sword Slash Streak Animation */
+    @keyframes slashStreak {
+      0% {
+        opacity: 0;
+        transform: translate(-100%, -100%) rotate(-45deg) scaleX(0.2);
+      }
+      30% {
+        opacity: 1;
+        transform: translate(-50%, -50%) rotate(-45deg) scaleX(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(50%, 50%) rotate(-45deg) scaleX(1.4);
+      }
+    }
+
+    /* Gold Shimmer effect for victory banner */
+    @keyframes shimmer {
+      100% {
+        transform: translateX(100%);
+      }
+    }
+
+    /* Hide standard scrollbar so Luffy's Stretching Arm is the hero */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #080D1A;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1E293B;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #F59E0B;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, ::before, ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body class="selection:bg-amber-500 selection:text-slate-950">
+  <div id="root"></div>
+
+  <!-- Master Interactive React Application Script -->
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    // ==========================================
+    // 1. DATA CONFIGURATION & DEVELOPER PROFILE
+    // ==========================================
+    const developerInfo = {
+      name: "Aditya Mehra",
+      title: "AI Engineer & Full-Stack Developer",
+      tagline: "Building digital experiences, one adventure at a time.",
+      subheading: "Computer Science student specializing in Artificial Intelligence. Navigating the uncharted waters of deep learning, intelligent systems, and modern web architectures.",
+      status: "Setting sail for new opportunities & impactful software engineering roles",
+      github: "https://github.com/adimehra343-jpg",
+      linkedin: "https://www.linkedin.com/in/aditya-mehra-473438392/",
+      email: "adimehra343@gmail.com",
+      location: "India • Available Globally",
+      bounty: "฿ 1,500,000,000",
+      pirateRank: "Supernova Developer",
+      ship: "Thousand Sunny • Tech Fleet"
+    };
+
+    const aboutGrandLine = {
+      summary: "A passionate Computer Science student specializing in Artificial Intelligence, driven by insatiable curiosity and an uncompromising standard for engineering craft.",
+      journey: "My voyage began when I first learned to control logic through lines of code. What began as simple scripts quickly evolved into a passion for architecting complex, living software. Navigating from procedural foundations to deep neural models, every bug conquered has been an island explored along my Grand Line.",
+      interests: "I operate at the intersection of modern full-stack web engineering and state-of-the-art AI/ML. Whether it's training custom neural models, fine-tuning LLMs for contextual retrieval, or engineering lightning-fast 60 FPS interfaces, I love making complex intelligence feel intuitive, snappy, and human.",
+      ambition: "To architect scalable, world-class intelligent platforms that bridge human intent and machine reasoning. I aim to contribute to foundational AI engineering and build software that genuinely improves human capability across the globe.",
+      problemSolvingApproach: "The Captain's Mindset: I break gargantuan, intimidating problems into navigable waypoints. I prioritize deep system understanding over superficial quick-fixes, iterate with relentless momentum, and treat setbacks as the wind that propels the ship forward.",
+      milestones: [
+        {
+          id: "loguetown",
+          island: "Loguetown Departure",
+          title: "The Genesis: Algorithms & Core CS",
+          period: "Early Voyages",
+          description: "Mastered algorithmic thinking, data structures, and object-oriented architecture in C++ and Python. Cultivated a solid foundation in computational complexity, memory management, and system logic.",
+          skills: ["C++", "Python", "Data Structures", "Algorithms", "System Architecture"],
+          coordinates: "East Blue 0°00'N, 0°00'E"
+        },
+        {
+          id: "reverse-mountain",
+          island: "Reverse Mountain Rapids",
+          title: "Ascending into AI & Deep Learning",
+          period: "Expansion",
+          description: "Ventured into the rapids of machine learning, neural architectures, PyTorch, and probabilistic models. Built computer vision pipelines, natural language models, and predictive analytics tools.",
+          skills: ["PyTorch", "TensorFlow", "Scikit-Learn", "Computer Vision", "NLP"],
+          coordinates: "Grand Line Entrance 12°45'S"
+        },
+        {
+          id: "water-7",
+          island: "Water 7 Shipyard",
+          title: "Mastering Full-Stack Craftsmanship",
+          period: "Engineering",
+          description: "Engineered robust full-stack applications with React, Next.js, Node.js, and high-performance databases. Focused on clean component composition, resilient state machines, and microsecond API responsiveness.",
+          skills: ["React", "TypeScript", "Node.js", "PostgreSQL", "Tailwind CSS"],
+          coordinates: "Grand Line 28°14'N"
+        },
+        {
+          id: "egghead",
+          island: "Egghead Horizon",
+          title: "Intelligent Systems & Frontier AI",
+          period: "Present & Future",
+          description: "Developing autonomous agentic workflows, multimodal interfaces, and vector-driven retrieval systems. Blending creative frontend polish with enterprise-grade machine intelligence.",
+          skills: ["LangChain", "Vector DBs", "RAG Systems", "Multimodal AI", "Cloud Deployments"],
+          coordinates: "New World Frontier"
+        }
+      ]
+    };
+
+    const zoroSkills = [
+      {
+        id: "frontend",
+        sword: "Wado Ichimonji",
+        swordAura: "Pristine White Blade • Pure Precision",
+        title: "Frontend Engineering",
+        category: "Client-Side Mastery",
+        description: "Crafting fluid, high-performance interfaces with obsessive attention to typography, micro-interactions, and accessibility.",
+        technologies: [
+          { name: "React / Next.js", level: "Advanced", tag: "Core" },
+          { name: "TypeScript", level: "Proficient", tag: "Type Safety" },
+          { name: "Tailwind CSS", level: "Advanced", tag: "Styling" },
+          { name: "Framer Motion", level: "Proficient", tag: "Motion" },
+          { name: "HTML5 / Canvas", level: "Advanced", tag: "Graphics" },
+          { name: "State Architecture", level: "Proficient", tag: "Zustand/Redux" }
+        ],
+        slashColor: "from-amber-200 to-white",
+        glowColor: "rgba(255, 255, 255, 0.45)"
+      },
+      {
+        id: "backend",
+        sword: "Sandai Kitetsu",
+        swordAura: "Cursed Scarlet Edge • Relentless Power",
+        title: "Backend Architecture",
+        category: "Server-Side & APIs",
+        description: "Designing robust, decoupled server systems, RESTful microservices, and asynchronous event streams that scale effortlessly.",
+        technologies: [
+          { name: "Node.js & Express", level: "Advanced", tag: "Runtime" },
+          { name: "Python / FastAPI", level: "Advanced", tag: "High Speed" },
+          { name: "RESTful APIs", level: "Advanced", tag: "Architecture" },
+          { name: "WebSockets", level: "Proficient", tag: "Real-time" },
+          { name: "Auth / JWT & OAuth", level: "Proficient", tag: "Security" },
+          { name: "Microservices", level: "Proficient", tag: "Scalability" }
+        ],
+        slashColor: "from-red-500 to-orange-400",
+        glowColor: "rgba(239, 68, 68, 0.45)"
+      },
+      {
+        id: "languages",
+        sword: "Wado Ichimonji",
+        swordAura: "Blade of Discipline",
+        title: "Programming Languages",
+        category: "Linguistic Fluency",
+        description: "Deep polyglot fluency across both strongly typed systems programming languages and modern dynamic scripting paradigms.",
+        technologies: [
+          { name: "Python", level: "Native Fluency", tag: "AI / Data" },
+          { name: "JavaScript / ES6+", level: "Native Fluency", tag: "Web" },
+          { name: "TypeScript", level: "Proficient", tag: "Typing" },
+          { name: "C++", level: "Proficient", tag: "Algorithms" },
+          { name: "SQL", level: "Proficient", tag: "Queries" },
+          { name: "Java", level: "Familiar", tag: "OOP" }
+        ],
+        slashColor: "from-sky-300 to-indigo-200",
+        glowColor: "rgba(56, 189, 248, 0.45)"
+      },
+      {
+        id: "databases",
+        sword: "Sandai Kitetsu",
+        swordAura: "Subterranean Force",
+        title: "Databases & Storage",
+        category: "Persistence & Data Modeling",
+        description: "Designing normalized relational schemas, distributed document stores, caching layers, and high-dimensional vector embeddings.",
+        technologies: [
+          { name: "PostgreSQL", level: "Advanced", tag: "Relational" },
+          { name: "MongoDB", level: "Proficient", tag: "Document" },
+          { name: "Redis", level: "Proficient", tag: "In-Memory/Cache" },
+          { name: "Supabase / Firebase", level: "Proficient", tag: "BaaS" },
+          { name: "Vector Databases", level: "Proficient", tag: "Pinecone / FAISS" },
+          { name: "Prisma ORM", level: "Proficient", tag: "TypeORM" }
+        ],
+        slashColor: "from-emerald-400 to-teal-300",
+        glowColor: "rgba(52, 211, 153, 0.45)"
+      },
+      {
+        id: "ai-ml",
+        sword: "Enma",
+        swordAura: "Supreme Purple Haki • Untamed Intelligence",
+        title: "AI & Machine Learning",
+        category: "Intelligent Systems",
+        description: "Training neural models, engineering custom feature pipelines, and orchestrating state-of-the-art LLMs for autonomous tasks.",
+        technologies: [
+          { name: "PyTorch", level: "Advanced", tag: "Deep Learning" },
+          { name: "TensorFlow / Keras", level: "Proficient", tag: "Neural Nets" },
+          { name: "Computer Vision", level: "Proficient", tag: "OpenCV / YOLO" },
+          { name: "LLM Orchestration", level: "Advanced", tag: "LangChain / RAG" },
+          { name: "Hugging Face", level: "Advanced", tag: "Transformers" },
+          { name: "Scikit-Learn", level: "Advanced", tag: "Statistical ML" }
+        ],
+        slashColor: "from-purple-500 to-fuchsia-400",
+        glowColor: "rgba(168, 85, 247, 0.5)"
+      },
+      {
+        id: "devops",
+        sword: "Enma",
+        swordAura: "Master of Flow",
+        title: "Developer Tools & Cloud",
+        category: "Shipwright Infrastructure",
+        description: "Ensuring reproducible environments, seamless continuous deployment, clean version control, and battle-tested Linux tooling.",
+        technologies: [
+          { name: "Git & GitHub", level: "Advanced", tag: "VCS" },
+          { name: "Docker", level: "Proficient", tag: "Containers" },
+          { name: "Linux / Bash", level: "Advanced", tag: "CLI" },
+          { name: "Vite / Webpack", level: "Advanced", tag: "Build Tooling" },
+          { name: "Postman", level: "Proficient", tag: "API Testing" },
+          { name: "Vercel / Cloudflare", level: "Advanced", tag: "Edge Deploy" }
+        ],
+        slashColor: "from-amber-400 to-yellow-200",
+        glowColor: "rgba(245, 158, 11, 0.45)"
+      }
+    ];
+
+    const sanjiProjects = [
+      {
+        id: "all-blue-ai",
+        title: "All-Blue AI • Multimodal Agent Suite",
+        category: "AI & Machine Learning",
+        flavor: "Chef's Special: Five-Star Intelligence",
+        tagline: "Autonomous multi-sensory assistant capable of synchronized voice, vision, and real-time reasoning.",
+        description: "A production-ready multimodal intelligence platform integrating computer vision, speech synthesis, and vector-backed knowledge retrieval. Features low-latency streaming responses, dynamic tool calling, and modular agent reasoning loops.",
+        technologies: ["PyTorch", "FastAPI", "Next.js", "LangChain", "Pinecone", "WebRTC"],
+        stats: { latency: "<180ms", accuracy: "98.4%", uptime: "99.9%" },
+        github: "https://github.com/adimehra343-jpg/all-blue-ai",
+        demo: "https://all-blue-ai.adityamehra.dev",
+        featured: true,
+        accent: "from-amber-500 to-orange-600",
+        badge: "Signature Course"
+      },
+      {
+        id: "haki-vision",
+        title: "Haki Vision • High-FPS Pose & Gesture Engine",
+        category: "Computer Vision",
+        flavor: "Observation Haki at 60 FPS",
+        tagline: "Real-time edge computer vision engine for high-fidelity hand gesture and skeletal tracking directly in-browser.",
+        description: "Engineered an ultra-optimized client-side computer vision pipeline that detects complex hand gestures, facial landmarks, and body posture without transmitting video streams to a remote server. Privacy-preserving and blazingly fast.",
+        technologies: ["Python", "OpenCV", "MediaPipe", "TensorFlow.js", "WebAssembly"],
+        stats: { fps: "60 FPS", modelSize: "3.2 MB", privacy: "100% On-Device" },
+        github: "https://github.com/adimehra343-jpg/haki-vision",
+        demo: "https://haki-vision.adityamehra.dev",
+        featured: true,
+        accent: "from-purple-500 to-indigo-600",
+        badge: "Sensory Mastery"
+      },
+      {
+        id: "baratie-commerce",
+        title: "Baratie Market • High-Concurrency Commerce Platform",
+        category: "Full-Stack Web",
+        flavor: "A Culinary Feast of Real-Time Transactions",
+        tagline: "Modern transactional commerce engine featuring optimistic state updates, microsecond cache invalidation, and Stripe integration.",
+        description: "Full-stack transactional web application built for seamless checkout speed and resilient state management. Employs Redis caching, PostgreSQL connection pooling, and interactive 3D product previews.",
+        technologies: ["React", "TypeScript", "Node.js", "PostgreSQL", "Redis", "Stripe"],
+        stats: { responseTime: "24ms", testCoverage: "94%", lighthouse: "99/100" },
+        github: "https://github.com/adimehra343-jpg/baratie-market",
+        demo: "https://baratie-market.adityamehra.dev",
+        featured: true,
+        accent: "from-rose-500 to-amber-600",
+        badge: "Haute Cuisine"
+      },
+      {
+        id: "log-pose-routes",
+        title: "Log Pose • Geospatial Route Optimizer",
+        category: "Full-Stack Web",
+        flavor: "Navigating Uncharted Coordinates",
+        tagline: "Dynamic topological route optimization tool for complex multi-waypoint navigation and travel planning.",
+        description: "Interactive mapping platform that calculates optimal paths across multiple waypoints using custom heuristic algorithms. Features elevation profiling, offline tile caching, and weather overlay integration.",
+        technologies: ["React", "Mapbox GL", "Node.js", "Express", "GeoJSON", "Tailwind CSS"],
+        stats: { algorithms: "Dijkstra / A*", caching: "IndexedDB", scale: "Global" },
+        github: "https://github.com/adimehra343-jpg/log-pose-routes",
+        demo: "https://log-pose.adityamehra.dev",
+        featured: false,
+        accent: "from-teal-500 to-cyan-600",
+        badge: "Navigational"
+      },
+      {
+        id: "den-den-mushi",
+        title: "Den Den Mushi • Encrypted P2P Voice & Data",
+        category: "Systems & Security",
+        flavor: "Secure Snail Transmissions",
+        tagline: "End-to-end encrypted peer-to-peer real-time communication suite with zero intermediary servers.",
+        description: "Decentralized audio and text communication web app utilizing WebRTC data channels with ECDH key exchange and AES-GCM encryption. Features instant room generation, adaptive audio compression, and file drops.",
+        technologies: ["WebRTC", "WebSockets", "Node.js", "Web Crypto API", "Tailwind CSS"],
+        stats: { encryption: "AES-256-GCM", architecture: "P2P Mesh", latency: "<40ms" },
+        github: "https://github.com/adimehra343-jpg/den-den-mushi",
+        demo: "https://denden-mushi.adityamehra.dev",
+        featured: false,
+        accent: "from-emerald-500 to-green-600",
+        badge: "Encrypted"
+      },
+      {
+        id: "grandline-sentiment",
+        title: "Grand Line Pulse • FinBERT Market Sentiment",
+        category: "AI & Machine Learning",
+        flavor: "Forecasting Market Weather",
+        tagline: "Real-time NLP sentiment analysis engine processing streaming financial headlines and news feeds.",
+        description: "Fine-tuned transformer model that parses live market news feeds, classifies sentiment polarity with calibrated confidence intervals, and correlates sentiments with price volatility indices.",
+        technologies: ["Python", "FastAPI", "Hugging Face", "FinBERT", "React", "Recharts"],
+        stats: { throughput: "450 req/s", f1Score: "0.923", latency: "38ms" },
+        github: "https://github.com/adimehra343-jpg/grandline-pulse",
+        demo: "https://sentiment.adityamehra.dev",
+        featured: false,
+        accent: "from-blue-500 to-indigo-700",
+        badge: "Predictive"
+      }
+    ];
+
+    const animeQuotes = [
+      {
+        quote: "If you don't take risks, you can't create a future.",
+        author: "Monkey D. Luffy",
+        role: "Captain of the Straw Hat Pirates"
+      },
+      {
+        quote: "When the world shoves you around, you just gotta stand up and shove back. It's not like anybody's gonna save you if you start babbling excuses.",
+        author: "Roronoa Zoro",
+        role: "Swordsman & First Mate"
+      },
+      {
+        quote: "Cooking is a gift from the gods. Spices are a gift from the devil. It looks like it was a little too spicy for you.",
+        author: "Sanji",
+        role: "Cook & Black Leg Master"
+      }
+    ];
+
+    // ==========================================
+    // 2. WEB AUDIO API SYNTHESIZER
+    // ==========================================
+    class SoundController {
+      constructor() {
+        this.ctx = null;
+        this.enabled = false;
+        this.ambientGain = null;
+        this.ambientRunning = false;
+      }
+
+      init() {
+        if (!this.ctx && typeof window !== 'undefined') {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (AudioCtx) this.ctx = new AudioCtx();
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      }
+
+      toggle() {
+        this.init();
+        this.enabled = !this.enabled;
+        if (this.enabled) {
+          this.startAmbientSea();
+          this.playChime();
+        } else {
+          this.stopAmbientSea();
+        }
+        return this.enabled;
+      }
+
+      playSwordSlash() {
+        if (!this.enabled || !this.ctx) return;
+        try {
+          const t = this.ctx.currentTime;
+          const bufferSize = this.ctx.sampleRate * 0.18;
+          const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+          const data = buffer.getChannelData(0);
+          for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+
+          const noise = this.ctx.createBufferSource();
+          noise.buffer = buffer;
+          const filter = this.ctx.createBiquadFilter();
+          filter.type = 'bandpass';
+          filter.frequency.setValueAtTime(3200, t);
+          filter.frequency.exponentialRampToValueAtTime(700, t + 0.16);
+          filter.Q.setValueAtTime(4.0, t);
+
+          const gain = this.ctx.createGain();
+          gain.gain.setValueAtTime(0.01, t);
+          gain.gain.linearRampToValueAtTime(0.35, t + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.001, t + 0.16);
+
+          noise.connect(filter);
+          filter.connect(gain);
+          gain.connect(this.ctx.destination);
+          noise.start(t);
+
+          const osc = this.ctx.createOscillator();
+          const oscGain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(1480, t);
+          osc.frequency.exponentialRampToValueAtTime(420, t + 0.14);
+          oscGain.gain.setValueAtTime(0.12, t);
+          oscGain.gain.exponentialRampToValueAtTime(0.001, t + 0.2);
+
+          osc.connect(oscGain);
+          oscGain.connect(this.ctx.destination);
+          osc.start(t);
+          osc.stop(t + 0.22);
+        } catch (e) {}
+      }
+
+      playRubberStretch() {
+        if (!this.enabled || !this.ctx) return;
+        try {
+          const t = this.ctx.currentTime;
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(180, t);
+          osc.frequency.linearRampToValueAtTime(340, t + 0.08);
+          osc.frequency.linearRampToValueAtTime(220, t + 0.16);
+
+          gain.gain.setValueAtTime(0.12, t);
+          gain.gain.linearRampToValueAtTime(0.18, t + 0.08);
+          gain.gain.exponentialRampToValueAtTime(0.001, t + 0.2);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(t);
+          osc.stop(t + 0.22);
+        } catch (e) {}
+      }
+
+      playMeatGrabCelebration() {
+        this.init();
+        if (!this.ctx) return;
+        try {
+          const t = this.ctx.currentTime;
+          const notes = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99, 1046.50];
+          notes.forEach((freq, idx) => {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = idx % 2 === 0 ? 'triangle' : 'sine';
+            osc.frequency.setValueAtTime(freq, t + idx * 0.07);
+
+            const startTime = t + idx * 0.07;
+            const dur = 0.35 + idx * 0.05;
+
+            gain.gain.setValueAtTime(0.01, startTime);
+            gain.gain.linearRampToValueAtTime(0.22, startTime + 0.02);
+            gain.gain.exponentialRampToValueAtTime(0.001, startTime + dur);
+
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start(startTime);
+            osc.stop(startTime + dur + 0.05);
+          });
+        } catch (e) {}
+      }
+
+      playClick() {
+        if (!this.enabled || !this.ctx) return;
+        try {
+          const t = this.ctx.currentTime;
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(800, t);
+          osc.frequency.exponentialRampToValueAtTime(300, t + 0.04);
+          gain.gain.setValueAtTime(0.1, t);
+          gain.gain.exponentialRampToValueAtTime(0.001, t + 0.05);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(t);
+          osc.stop(t + 0.06);
+        } catch (e) {}
+      }
+
+      playChime() {
+        if (!this.ctx) return;
+        try {
+          const t = this.ctx.currentTime;
+          [523.25, 659.25, 783.99].forEach((freq, i) => {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, t + i * 0.05);
+            gain.gain.setValueAtTime(0.12, t + i * 0.05);
+            gain.gain.exponentialRampToValueAtTime(0.001, t + i * 0.05 + 0.5);
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start(t + i * 0.05);
+            osc.stop(t + i * 0.05 + 0.6);
+          });
+        } catch (e) {}
+      }
+
+      startAmbientSea() {
+        if (this.ambientRunning || !this.ctx) return;
+        try {
+          const bufferSize = this.ctx.sampleRate * 2;
+          const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+          const data = buffer.getChannelData(0);
+          let lastOut = 0.0;
+          for (let i = 0; i < bufferSize; i++) {
+            const white = Math.random() * 2 - 1;
+            data[i] = (lastOut + 0.02 * white) / 1.02;
+            lastOut = data[i];
+          }
+
+          this.ambientSource = this.ctx.createBufferSource();
+          this.ambientSource.buffer = buffer;
+          this.ambientSource.loop = true;
+
+          const filter = this.ctx.createBiquadFilter();
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(450, this.ctx.currentTime);
+
+          const lfo = this.ctx.createOscillator();
+          lfo.frequency.setValueAtTime(0.18, this.ctx.currentTime);
+          const lfoGain = this.ctx.createGain();
+          lfoGain.gain.setValueAtTime(250, this.ctx.currentTime);
+          lfo.connect(lfoGain);
+          lfoGain.connect(filter.frequency);
+
+          this.ambientGain = this.ctx.createGain();
+          this.ambientGain.gain.setValueAtTime(0.01, this.ctx.currentTime);
+          this.ambientGain.gain.linearRampToValueAtTime(0.06, this.ctx.currentTime + 2.0);
+
+          this.ambientSource.connect(filter);
+          filter.connect(this.ambientGain);
+          this.ambientGain.connect(this.ctx.destination);
+
+          this.ambientSource.start();
+          lfo.start();
+          this.ambientRunning = true;
+          this.ambientLfo = lfo;
+        } catch (e) {}
+      }
+
+      stopAmbientSea() {
+        if (!this.ambientRunning) return;
+        try {
+          if (this.ambientGain && this.ctx) {
+            this.ambientGain.gain.linearRampToValueAtTime(0.0001, this.ctx.currentTime + 0.8);
+          }
+          setTimeout(() => {
+            if (this.ambientSource) try { this.ambientSource.stop(); } catch(e){}
+            if (this.ambientLfo) try { this.ambientLfo.stop(); } catch(e){}
+            this.ambientRunning = false;
+          }, 900);
+        } catch (e) {
+          this.ambientRunning = false;
+        }
+      }
+    }
+
+    const soundManager = new SoundController();
+
+    // ==========================================
+    // 3. SVG ARTWORK COMPONENTS
+    // ==========================================
+    const ThousandSunnySVG = ({ className = "w-48 h-36" }) => (
+      <svg viewBox="0 0 400 300" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="sailGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#FFFDF7" />
+            <stop offset="100%" stopColor="#EADEC7" />
+          </linearGradient>
+          <linearGradient id="hullGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#C97A3E" />
+            <stop offset="100%" stopColor="#7E3F18" />
+          </linearGradient>
+          <linearGradient id="maneGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#FFDE59" />
+            <stop offset="100%" stopColor="#FF914D" />
+          </linearGradient>
+        </defs>
+        <ellipse cx="200" cy="265" rx="140" ry="8" fill="rgba(255,255,255,0.25)" />
+        <ellipse cx="180" cy="268" rx="90" ry="5" fill="rgba(255,255,255,0.4)" />
+        <path d="M90 230 C 130 255, 270 255, 310 220 L 320 200 C 270 215, 130 215, 80 200 Z" fill="url(#hullGrad)" stroke="#5A2808" strokeWidth="2.5" />
+        <path d="M80 200 L 320 200 L 315 190 L 85 190 Z" fill="#FFE5A3" stroke="#875323" strokeWidth="1.5" />
+        <circle cx="130" cy="218" r="4" fill="#2E1C0C" />
+        <circle cx="170" cy="222" r="4" fill="#2E1C0C" />
+        <circle cx="210" cy="222" r="4" fill="#2E1C0C" />
+        <circle cx="250" cy="218" r="4" fill="#2E1C0C" />
+        <g transform="translate(310, 180) scale(0.65)">
+          <circle cx="20" cy="20" r="32" fill="url(#maneGrad)" stroke="#E67E22" strokeWidth="2" />
+          {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((deg, i) => (
+            <path key={i} d="M 20 20 L 14 -18 C 18 -26, 22 -26, 26 -18 Z" fill="#FFB703" transform={`rotate(${deg} 20 20)`} />
+          ))}
+          <circle cx="20" cy="20" r="18" fill="#FDF6E2" stroke="#4A2810" strokeWidth="2" />
+          <circle cx="13" cy="16" r="3" fill="#222" />
+          <circle cx="27" cy="16" r="3" fill="#222" />
+          <path d="M14 24 Q 20 30 26 24" fill="none" stroke="#222" strokeWidth="2.5" strokeLinecap="round" />
+          <circle cx="20" cy="20" r="3" fill="#D9534F" />
+        </g>
+        <rect x="155" y="60" width="7" height="135" fill="#6B3E11" rx="2" />
+        <rect x="235" y="80" width="6" height="115" fill="#6B3E11" rx="2" />
+        <rect x="150" y="70" width="17" height="12" fill="#E89843" stroke="#4A2810" strokeWidth="1.5" rx="2" />
+        <path d="M100 85 Q 160 70 220 85 Q 215 145 160 150 Q 105 145 100 85 Z" fill="url(#sailGrad)" stroke="#B89B72" strokeWidth="2" />
+        <g transform="translate(142, 98) scale(0.6)">
+          <ellipse cx="30" cy="18" rx="28" ry="7" fill="#F4C430" stroke="#875323" strokeWidth="1.5" />
+          <path d="M14 18 C 14 6, 46 6, 46 18 Z" fill="#F4C430" stroke="#875323" strokeWidth="1.5" />
+          <path d="M14 17 Q 30 14 46 17 L 46 19 Q 30 16 14 19 Z" fill="#DC2626" />
+          <circle cx="30" cy="28" r="12" fill="#FFFDF7" stroke="#2B2D42" strokeWidth="1.5" />
+          <ellipse cx="25" cy="26" rx="3" ry="4" fill="#2B2D42" />
+          <ellipse cx="35" cy="26" rx="3" ry="4" fill="#2B2D42" />
+          <path d="M25 35 L 35 35 M 27 33 L 27 37 M 30 33 L 30 37 M 33 33 L 33 37" stroke="#2B2D42" strokeWidth="1.5" />
+          <line x1="6" y1="8" x2="54" y2="48" stroke="#FFFDF7" strokeWidth="4" strokeLinecap="round" />
+          <line x1="6" y1="48" x2="54" y2="8" stroke="#FFFDF7" strokeWidth="4" strokeLinecap="round" />
+        </g>
+        <path d="M235 95 Q 275 90 300 110 Q 285 155 240 155 Z" fill="url(#sailGrad)" stroke="#B89B72" strokeWidth="1.5" />
+        <line x1="160" y1="65" x2="90" y2="195" stroke="#4A2810" strokeWidth="1" strokeDasharray="3 2" />
+        <line x1="160" y1="65" x2="230" y2="195" stroke="#4A2810" strokeWidth="1" strokeDasharray="3 2" />
+        <line x1="240" y1="85" x2="310" y2="195" stroke="#4A2810" strokeWidth="1" strokeDasharray="3 2" />
+      </svg>
+    );
+
+    const LuffyHeroArtwork = ({ className = "w-full max-w-md h-auto" }) => (
+      <svg viewBox="0 0 500 680" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="skinGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#FDE6C8" />
+            <stop offset="100%" stopColor="#F5CD9B" />
+          </linearGradient>
+          <linearGradient id="vestGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#EF4444" />
+            <stop offset="100%" stopColor="#B91C1C" />
+          </linearGradient>
+          <linearGradient id="hatGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#FDE047" />
+            <stop offset="100%" stopColor="#EAB308" />
+          </linearGradient>
+          <linearGradient id="sashGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#FBBF24" />
+            <stop offset="100%" stopColor="#D97706" />
+          </linearGradient>
+        </defs>
+        <circle cx="250" cy="300" r="220" fill="radial-gradient(circle, rgba(251, 191, 36, 0.25) 0%, rgba(239, 68, 68, 0) 70%)" />
+        <g>
+          {/* Black Coat behind */}
+          <path d="M170 250 C 130 340, 110 460, 120 580 C 170 540, 200 500, 210 420 Z" fill="#111827" stroke="#1F2937" strokeWidth="2" />
+          <path d="M330 250 C 370 340, 390 460, 380 580 C 330 540, 300 500, 290 420 Z" fill="#111827" stroke="#1F2937" strokeWidth="2" />
+          {/* Legs */}
+          <path d="M195 440 L 180 570 L 210 570 L 225 440 Z" fill="url(#skinGrad)" stroke="#78350F" strokeWidth="2" />
+          <path d="M275 440 L 290 570 L 320 570 L 305 440 Z" fill="url(#skinGrad)" stroke="#78350F" strokeWidth="2" />
+          {/* Blue Shorts */}
+          <path d="M185 370 L 170 450 L 235 450 L 250 410 L 265 450 L 330 450 L 315 370 Z" fill="#2563EB" stroke="#1E3A8A" strokeWidth="2.5" />
+          <path d="M165 445 C 180 460, 220 460, 238 445 L 235 455 C 220 468, 180 468, 168 455 Z" fill="#F8FAFC" stroke="#94A3B8" strokeWidth="1.5" />
+          <path d="M262 445 C 280 460, 320 460, 335 445 L 332 455 C 320 468, 280 468, 265 455 Z" fill="#F8FAFC" stroke="#94A3B8" strokeWidth="1.5" />
+          {/* Sandals */}
+          <ellipse cx="195" cy="580" rx="22" ry="7" fill="#D97706" stroke="#78350F" strokeWidth="2" />
+          <path d="M185 577 L 195 568 L 205 577" stroke="#92400E" strokeWidth="3" fill="none" />
+          <ellipse cx="305" cy="580" rx="22" ry="7" fill="#D97706" stroke="#78350F" strokeWidth="2" />
+          <path d="M295 577 L 305 568 L 315 577" stroke="#92400E" strokeWidth="3" fill="none" />
+          {/* Torso & X Scar */}
+          <path d="M200 230 C 185 280, 185 340, 205 380 L 295 380 C 315 340, 315 280, 300 230 Z" fill="url(#skinGrad)" stroke="#9A3412" strokeWidth="2" />
+          <path d="M215 255 Q 250 295 285 335 M 285 255 Q 250 295 215 335" stroke="#DC2626" strokeWidth="6" strokeLinecap="round" opacity="0.85" />
+          <path d="M250 280 L 250 360 M 230 320 Q 250 325 270 320 M 235 345 Q 250 350 265 345" stroke="#C2410C" strokeWidth="1.8" fill="none" opacity="0.6" />
+          {/* Yellow Sash */}
+          <path d="M195 365 Q 250 380 305 365 L 310 395 Q 250 410 190 395 Z" fill="url(#sashGrad)" stroke="#B45309" strokeWidth="2" />
+          <path d="M280 375 C 310 400, 325 430, 340 480 L 320 485 C 305 440, 290 410, 275 390 Z" fill="url(#sashGrad)" stroke="#B45309" strokeWidth="1.5" />
+          {/* Open Red Vest */}
+          <path d="M175 220 L 160 300 C 160 350, 175 375, 200 380 L 208 340 C 190 300, 195 250, 205 220 Z" fill="url(#vestGrad)" stroke="#7F1D1D" strokeWidth="2.5" />
+          <path d="M325 220 L 340 300 C 340 350, 325 375, 300 380 L 292 340 C 310 300, 305 250, 295 220 Z" fill="url(#vestGrad)" stroke="#7F1D1D" strokeWidth="2.5" />
+          {/* Arms */}
+          <path d="M185 225 C 145 250, 125 300, 140 345 L 175 340 C 165 305, 175 270, 200 240 Z" fill="url(#skinGrad)" stroke="#9A3412" strokeWidth="2" />
+          <circle cx="180" cy="345" r="14" fill="url(#skinGrad)" stroke="#9A3412" strokeWidth="2" />
+          <path d="M315 225 C 355 245, 375 285, 365 330 L 335 320 C 345 285, 335 255, 305 235 Z" fill="url(#skinGrad)" stroke="#9A3412" strokeWidth="2" />
+          <circle cx="345" cy="325" r="14" fill="url(#skinGrad)" stroke="#9A3412" strokeWidth="2" />
+          {/* Neck & Face */}
+          <path d="M228 180 L 228 225 Q 250 235 272 225 L 272 180 Z" fill="url(#skinGrad)" stroke="#9A3412" strokeWidth="2" />
+          <path d="M210 135 C 205 180, 230 215, 250 215 C 270 215, 295 180, 290 135 Z" fill="url(#skinGrad)" stroke="#9A3412" strokeWidth="2" />
+          {/* Eye scar */}
+          <line x1="228" y1="165" x2="238" y2="167" stroke="#B91C1C" strokeWidth="2" />
+          <line x1="230" y1="162" x2="231" y2="170" stroke="#B91C1C" strokeWidth="1.5" />
+          <line x1="236" y1="163" x2="237" y2="171" stroke="#B91C1C" strokeWidth="1.5" />
+          {/* Eyes */}
+          <circle cx="233" cy="150" r="7" fill="#111827" />
+          <circle cx="231" cy="148" r="2.5" fill="#FFFFFF" />
+          <circle cx="267" cy="150" r="7" fill="#111827" />
+          <circle cx="265" cy="148" r="2.5" fill="#FFFFFF" />
+          {/* Grin */}
+          <path d="M225 175 Q 250 205 275 175 Z" fill="#FFFFFF" stroke="#111827" strokeWidth="2" />
+          <path d="M228 178 L 272 178 M 240 178 L 240 190 M 250 178 L 250 195 M 260 178 L 260 190" stroke="#CBD5E1" strokeWidth="1.2" />
+          {/* Hair */}
+          <path d="M195 130 C 190 90, 220 85, 230 90 C 235 75, 255 75, 260 88 C 270 70, 295 80, 300 110 C 315 130, 310 160, 295 170 C 285 140, 280 130, 275 130 C 265 140, 255 135, 250 125 C 240 140, 225 135, 220 125 C 210 145, 200 150, 195 130 Z" fill="#111827" />
+          {/* Straw Hat */}
+          <ellipse cx="250" cy="108" rx="85" ry="24" fill="url(#hatGrad)" stroke="#854D0E" strokeWidth="2.5" />
+          <path d="M200 105 C 195 45, 305 45, 300 105 Z" fill="url(#hatGrad)" stroke="#854D0E" strokeWidth="2.5" />
+          <path d="M199 92 C 220 86, 280 86, 301 92 L 300 105 C 280 99, 220 99, 200 105 Z" fill="#DC2626" stroke="#991B1B" strokeWidth="1.5" />
+          <path d="M220 65 Q 250 68 280 65 M 215 80 Q 250 84 285 80" stroke="#CA8A04" strokeWidth="1.5" strokeDasharray="3 3" />
+        </g>
+      </svg>
+    );
+
+    const SantoryuSwordsSVG = ({ className = "w-full max-w-sm h-auto" }) => (
+      <svg viewBox="0 0 500 200" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="whiteBlade" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#FFFFFF" />
+            <stop offset="60%" stopColor="#E2E8F0" />
+            <stop offset="100%" stopColor="#94A3B8" />
+          </linearGradient>
+          <linearGradient id="kitetsuHamon" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#EF4444" />
+            <stop offset="50%" stopColor="#DC2626" />
+            <stop offset="100%" stopColor="#7F1D1D" />
+          </linearGradient>
+          <linearGradient id="enmaAura" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#A855F7" />
+            <stop offset="50%" stopColor="#7C3AED" />
+            <stop offset="100%" stopColor="#4C1D95" />
+          </linearGradient>
+        </defs>
+        {/* Wado Ichimonji */}
+        <g transform="translate(30, 30) rotate(-4)">
+          <line x1="80" y1="20" x2="420" y2="20" stroke="url(#whiteBlade)" strokeWidth="6" strokeLinecap="round" />
+          <line x1="80" y1="18" x2="410" y2="18" stroke="#FFFFFF" strokeWidth="2" />
+          <ellipse cx="80" cy="20" rx="4" ry="12" fill="#EAB308" stroke="#78350F" strokeWidth="1.5" />
+          <rect x="15" y="15" width="65" height="10" rx="3" fill="#F8FAFC" stroke="#64748B" strokeWidth="1.5" />
+          <circle cx="15" cy="20" r="5" fill="#EAB308" stroke="#78350F" strokeWidth="1" />
+        </g>
+        {/* Sandai Kitetsu */}
+        <g transform="translate(20, 80) rotate(1)">
+          <line x1="90" y1="20" x2="440" y2="20" stroke="#CBD5E1" strokeWidth="6" strokeLinecap="round" />
+          <path d="M90 22 Q 130 18 170 23 Q 210 19 250 23 Q 290 18 330 23 Q 370 19 410 23 L 440 20" stroke="url(#kitetsuHamon)" strokeWidth="3" fill="none" />
+          <rect x="85" y="10" width="8" height="20" rx="2" fill="#B91C1C" stroke="#450A0A" strokeWidth="1.5" />
+          <rect x="20" y="15" width="65" height="10" rx="3" fill="#991B1B" stroke="#18181B" strokeWidth="1.5" />
+          <line x1="32" y1="15" x2="26" y2="25" stroke="#18181B" strokeWidth="2" />
+          <line x1="45" y1="15" x2="39" y2="25" stroke="#18181B" strokeWidth="2" />
+          <line x1="58" y1="15" x2="52" y2="25" stroke="#18181B" strokeWidth="2" />
+          <line x1="71" y1="15" x2="65" y2="25" stroke="#18181B" strokeWidth="2" />
+        </g>
+        {/* Enma */}
+        <g transform="translate(30, 130) rotate(5)">
+          <line x1="85" y1="20" x2="430" y2="20" stroke="url(#enmaAura)" strokeWidth="6" strokeLinecap="round" />
+          <line x1="85" y1="18" x2="420" y2="18" stroke="#E9D5FF" strokeWidth="2" />
+          <circle cx="85" cy="14" r="5" fill="#EAB308" stroke="#78350F" strokeWidth="1" />
+          <circle cx="85" cy="26" r="5" fill="#EAB308" stroke="#78350F" strokeWidth="1" />
+          <circle cx="81" cy="20" r="4" fill="#EAB308" stroke="#78350F" strokeWidth="1" />
+          <rect x="18" y="15" width="67" height="10" rx="3" fill="#581C87" stroke="#EAB308" strokeWidth="1.5" />
+          <ellipse cx="18" cy="20" rx="4" ry="7" fill="#EAB308" stroke="#78350F" strokeWidth="1" />
+        </g>
+      </svg>
+    );
+
+    const MangaMeatSVG = ({ className = "w-20 h-20", isGrabbed = false }) => (
+      <svg viewBox="0 0 120 120" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="meatGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#C2410C" />
+            <stop offset="50%" stopColor="#9A3412" />
+            <stop offset="100%" stopColor="#7C2D12" />
+          </linearGradient>
+          <linearGradient id="boneGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#FFFFFF" />
+            <stop offset="100%" stopColor="#E2E8F0" />
+          </linearGradient>
+        </defs>
+        <g className="animate-pulse opacity-75">
+          <path d="M45 20 Q 40 10 48 5" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" fill="none" />
+          <path d="M60 18 Q 65 8 58 3" stroke="#FFFFFF" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+          <path d="M75 22 Q 70 12 78 7" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" fill="none" />
+        </g>
+        <ellipse cx="50" cy="25" rx="7" ry="6" fill="url(#boneGrad)" stroke="#94A3B8" strokeWidth="2" />
+        <ellipse cx="65" cy="25" rx="7" ry="6" fill="url(#boneGrad)" stroke="#94A3B8" strokeWidth="2" />
+        <rect x="52" y="24" width="12" height="15" fill="url(#boneGrad)" />
+        <g className={isGrabbed ? "scale-95 transition-transform" : ""}>
+          <ellipse cx="60" cy="62" rx="36" ry="26" fill="url(#meatGrad)" stroke="#451A03" strokeWidth="3" />
+          <path d="M38 52 Q 60 58 82 52" stroke="#431407" strokeWidth="3" strokeLinecap="round" />
+          <path d="M36 64 Q 60 70 84 64" stroke="#431407" strokeWidth="3" strokeLinecap="round" />
+          <path d="M42 74 Q 60 80 78 74" stroke="#431407" strokeWidth="2.5" strokeLinecap="round" />
+          <ellipse cx="55" cy="50" rx="18" ry="6" fill="#FDBA74" opacity="0.45" />
+        </g>
+        <rect x="52" y="80" width="12" height="16" fill="url(#boneGrad)" />
+        <ellipse cx="50" cy="98" rx="7" ry="6" fill="url(#boneGrad)" stroke="#94A3B8" strokeWidth="2" />
+        <ellipse cx="65" cy="98" rx="7" ry="6" fill="url(#boneGrad)" stroke="#94A3B8" strokeWidth="2" />
+      </svg>
+    );
+
+    const LogPoseIcon = ({ className = "w-8 h-8 text-amber-400" }) => (
+      <svg viewBox="0 0 100 100" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="44" stroke="currentColor" strokeWidth="3" strokeDasharray="4 2" />
+        <circle cx="50" cy="50" r="38" stroke="currentColor" strokeWidth="1.5" />
+        <polygon points="50,14 56,50 50,46" fill="#EF4444" />
+        <polygon points="50,86 56,50 50,54" fill="#94A3B8" />
+        <polygon points="50,14 44,50 50,46" fill="#DC2626" />
+        <polygon points="50,86 44,50 50,54" fill="#64748B" />
+        <circle cx="50" cy="50" r="4" fill="#FBBF24" stroke="#78350F" strokeWidth="2" />
+      </svg>
+    );
+
+    const CrewSunsetSVG = ({ className = "w-full max-w-2xl h-auto" }) => (
+      <svg viewBox="0 0 800 350" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="sunReflection" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#FDE68A" stopOpacity="0.8" />
+            <stop offset="100%" stopColor="#0B132B" stopOpacity="0.1" />
+          </linearGradient>
+        </defs>
+        <circle cx="400" cy="220" r="90" fill="#FEF08A" opacity="0.9" />
+        <circle cx="400" cy="220" r="130" fill="#FBBF24" opacity="0.3" />
+        <rect x="0" y="220" width="800" height="130" fill="#0E1A2B" />
+        <polygon points="360,220 440,220 540,350 260,350" fill="url(#sunReflection)" />
+        {[230, 245, 260, 275, 295, 320].map((y, i) => (
+          <line key={i} x1={380 - i * 35} y1={y} x2={420 + i * 35} y2={y} stroke="#FEF08A" strokeWidth={3 - i * 0.3} opacity={0.8 - i * 0.1} />
+        ))}
+        <g transform="translate(620, 185) scale(0.35)" opacity="0.85">
+          <path d="M20 70 C 60 90, 140 90, 180 70 L 170 55 L 30 55 Z" fill="#0A0F1D" />
+          <rect x="90" y="10" width="6" height="50" fill="#0A0F1D" />
+          <path d="M60 20 Q 95 10 130 20 L 125 45 Q 95 40 65 45 Z" fill="#0A0F1D" />
+        </g>
+        <path d="M0 270 Q 200 240 400 250 Q 600 260 800 280 L 800 350 L 0 350 Z" fill="#080D1A" />
+        {/* Zoro */}
+        <g transform="translate(240, 160) scale(0.75)" fill="#080D1A">
+          <path d="M40 70 C 20 85, 10 110, 5 130 L 75 130 C 70 110, 60 85, 40 70 Z" />
+          <circle cx="40" cy="55" r="14" />
+          <path d="M25 55 Q 15 50 18 62" stroke="#080D1A" strokeWidth="4" strokeLinecap="round" />
+          <line x1="10" y1="130" x2="60" y2="40" stroke="#080D1A" strokeWidth="4" />
+          <line x1="16" y1="130" x2="66" y2="40" stroke="#080D1A" strokeWidth="4" />
+          <line x1="22" y1="130" x2="72" y2="40" stroke="#080D1A" strokeWidth="4" />
+        </g>
+        {/* Luffy */}
+        <g transform="translate(370, 145) scale(0.85)" fill="#080D1A">
+          <path d="M28 100 L 25 140 L 32 140 L 35 100 Z" />
+          <path d="M45 100 L 48 140 L 41 140 L 38 100 Z" />
+          <path d="M25 55 L 15 100 L 60 100 L 50 55 Z" />
+          <circle cx="37" cy="45" r="13" />
+          <ellipse cx="37" cy="38" rx="30" ry="7" />
+          <path d="M22 37 C 22 18, 52 18, 52 37 Z" />
+          <path d="M48 65 Q 65 45 75 25" stroke="#080D1A" strokeWidth="6" strokeLinecap="round" />
+          <circle cx="75" cy="23" r="5" />
+        </g>
+        {/* Sanji */}
+        <g transform="translate(480, 160) scale(0.75)" fill="#080D1A">
+          <path d="M30 65 C 15 85, 20 110, 15 130 L 65 130 C 60 110, 60 85, 45 65 Z" />
+          <circle cx="38" cy="52" r="13" />
+          <path d="M42 42 Q 52 55 45 62" stroke="#080D1A" strokeWidth="3" />
+          <circle cx="48" cy="56" r="2" fill="#F97316" />
+          <path d="M50 54 Q 60 45 55 35 Q 50 25 60 15" stroke="#FEF08A" strokeWidth="1.5" strokeDasharray="2 2" fill="none" opacity="0.8" />
+        </g>
+      </svg>
+    );
+
+    // ==========================================
+    // 4. OCEAN SUNSET CANVAS BACKGROUND
+    // ==========================================
+    const OceanCanvas = () => {
+      const canvasRef = useRef(null);
+
+      useEffect(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let animationFrameId;
+        let width = (canvas.width = window.innerWidth);
+        let height = (canvas.height = window.innerHeight);
+
+        const handleResize = () => {
+          width = canvas.width = window.innerWidth;
+          height = canvas.height = window.innerHeight;
+        };
+        window.addEventListener('resize', handleResize);
+
+        const clouds = [
+          { x: width * 0.1, y: height * 0.12, r: 65, speed: 0.15, opacity: 0.35 },
+          { x: width * 0.45, y: height * 0.22, r: 90, speed: 0.1, opacity: 0.25 },
+          { x: width * 0.8, y: height * 0.08, r: 75, speed: 0.18, opacity: 0.3 },
+          { x: width * 0.25, y: height * 0.3, r: 110, speed: 0.08, opacity: 0.2 }
+        ];
+
+        let t = 0;
+
+        const render = () => {
+          t += 0.015;
+          ctx.clearRect(0, 0, width, height);
+
+          // Sunset Sky
+          const skyGrad = ctx.createLinearGradient(0, 0, 0, height);
+          skyGrad.addColorStop(0, '#0A0F1D');
+          skyGrad.addColorStop(0.3, '#1E2540');
+          skyGrad.addColorStop(0.55, '#68291F');
+          skyGrad.addColorStop(0.75, '#D95C27');
+          skyGrad.addColorStop(0.9, '#F5A623');
+          skyGrad.addColorStop(1, '#FFF3C4');
+          ctx.fillStyle = skyGrad;
+          ctx.fillRect(0, 0, width, height * 0.75);
+
+          // Sun
+          const sunX = width * 0.48;
+          const sunY = height * 0.62;
+          const sunRadius = Math.min(width, height) * 0.18;
+          const sunGlow = ctx.createRadialGradient(sunX, sunY, sunRadius * 0.2, sunX, sunY, sunRadius * 2);
+          sunGlow.addColorStop(0, 'rgba(255, 248, 220, 0.95)');
+          sunGlow.addColorStop(0.35, 'rgba(255, 178, 62, 0.6)');
+          sunGlow.addColorStop(0.7, 'rgba(235, 94, 40, 0.2)');
+          sunGlow.addColorStop(1, 'rgba(235, 94, 40, 0)');
+          ctx.fillStyle = sunGlow;
+          ctx.beginPath();
+          ctx.arc(sunX, sunY, sunRadius * 2, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Soft Clouds
+          clouds.forEach((cloud) => {
+            cloud.x += cloud.speed;
+            if (cloud.x - cloud.r * 2 > width) cloud.x = -cloud.r * 2;
+            ctx.fillStyle = `rgba(255, 230, 210, ${cloud.opacity})`;
+            ctx.beginPath();
+            ctx.arc(cloud.x, cloud.y, cloud.r * 0.6, 0, Math.PI * 2);
+            ctx.arc(cloud.x + cloud.r * 0.45, cloud.y - cloud.r * 0.2, cloud.r * 0.75, 0, Math.PI * 2);
+            ctx.arc(cloud.x + cloud.r * 0.9, cloud.y, cloud.r * 0.55, 0, Math.PI * 2);
+            ctx.fill();
+          });
+
+          // Sea Base
+          const horizonY = height * 0.68;
+          const seaGrad = ctx.createLinearGradient(0, horizonY, 0, height);
+          seaGrad.addColorStop(0, '#243A5E');
+          seaGrad.addColorStop(0.3, '#162843');
+          seaGrad.addColorStop(0.7, '#0D1A2E');
+          seaGrad.addColorStop(1, '#080D1A');
+          ctx.fillStyle = seaGrad;
+          ctx.fillRect(0, horizonY, width, height - horizonY);
+
+          // Sun Water Reflection
+          const reflectionGrad = ctx.createLinearGradient(sunX - 120, horizonY, sunX + 120, height);
+          reflectionGrad.addColorStop(0, 'rgba(255, 235, 160, 0.45)');
+          reflectionGrad.addColorStop(1, 'rgba(255, 140, 40, 0.05)');
+          ctx.fillStyle = reflectionGrad;
+          ctx.beginPath();
+          ctx.moveTo(sunX - 50, horizonY);
+          ctx.lineTo(sunX + 50, horizonY);
+          ctx.lineTo(sunX + 180, height);
+          ctx.lineTo(sunX - 180, height);
+          ctx.closePath();
+          ctx.fill();
+
+          // Wave Layers
+          const waveLayers = [
+            { y: horizonY + 15, amp: 4, freq: 0.012, speed: 0.8, color: 'rgba(255, 240, 180, 0.25)' },
+            { y: horizonY + 45, amp: 7, freq: 0.009, speed: 1.1, color: 'rgba(56, 120, 180, 0.4)' },
+            { y: horizonY + 95, amp: 11, freq: 0.007, speed: 1.4, color: 'rgba(30, 70, 120, 0.55)' },
+            { y: horizonY + 160, amp: 16, freq: 0.005, speed: 1.7, color: 'rgba(14, 35, 65, 0.75)' },
+            { y: horizonY + 240, amp: 22, freq: 0.004, speed: 2.0, color: '#080D1A' }
+          ];
+
+          waveLayers.forEach((layer) => {
+            ctx.fillStyle = layer.color;
+            ctx.beginPath();
+            ctx.moveTo(0, height);
+            ctx.lineTo(0, layer.y);
+            for (let x = 0; x <= width; x += 15) {
+              const waveY =
+                layer.y +
+                Math.sin(x * layer.freq + t * layer.speed) * layer.amp +
+                Math.cos(x * layer.freq * 0.5 + t * layer.speed * 0.6) * (layer.amp * 0.4);
+              ctx.lineTo(x, waveY);
+            }
+            ctx.lineTo(width, height);
+            ctx.closePath();
+            ctx.fill();
+          });
+
+          animationFrameId = requestAnimationFrame(render);
+        };
+
+        render();
+        return () => {
+          window.removeEventListener('resize', handleResize);
+          cancelAnimationFrame(animationFrameId);
+        };
+      }, []);
+
+      return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none" />;
+    };
+
+    // ==========================================
+    // 5. NAVBAR COMPONENT
+    // ==========================================
+    const Navbar = () => {
+      const [isScrolled, setIsScrolled] = useState(false);
+      const [soundOn, setSoundOn] = useState(false);
+      const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+      useEffect(() => {
+        const handleScroll = () => setIsScrolled(window.scrollY > 40);
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll);
+      }, []);
+
+      const handleSoundToggle = () => {
+        const newState = soundManager.toggle();
+        setSoundOn(newState);
+      };
+
+      const navLinks = [
+        { label: "Captain", href: "#hero" },
+        { label: "The Grand Line", href: "#about" },
+        { label: "Zoro's Dojo", href: "#skills" },
+        { label: "Sanji's Kitchen", href: "#projects" },
+        { label: "The Crew", href: "#contact" }
+      ];
+
+      const handleNavClick = (e, href) => {
+        e.preventDefault();
+        soundManager.playClick();
+        setMobileMenuOpen(false);
+        const elem = document.querySelector(href);
+        if (elem) elem.scrollIntoView({ behavior: 'smooth' });
+      };
+
+      return (
+        <header
+          className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+            isScrolled
+              ? 'py-3 bg-slate-950/80 backdrop-blur-md border-b border-amber-500/20 shadow-[0_10px_30px_rgba(0,0,0,0.5)]'
+              : 'py-5 bg-gradient-to-b from-slate-950/80 to-transparent'
+          }`}
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+            <a
+              href="#hero"
+              onClick={(e) => handleNavClick(e, '#hero')}
+              className="flex items-center gap-3 group focus:outline-none"
+            >
+              <div className="relative">
+                <LogPoseIcon className="w-8 h-8 text-amber-400 group-hover:rotate-45 transition-transform duration-500" />
+                <div className="absolute inset-0 bg-amber-400/20 blur-md rounded-full group-hover:bg-amber-400/40 transition-colors" />
+              </div>
+              <div>
+                <span className="font-serif font-black tracking-wider text-base sm:text-lg text-amber-100 group-hover:text-amber-400 transition-colors">
+                  {developerInfo.name.toUpperCase()}
+                </span>
+                <span className="block text-[10px] font-mono tracking-widest text-amber-400/70 -mt-1 uppercase">
+                  Grand Line Fleet
+                </span>
+              </div>
+            </a>
+
+            <nav className="hidden md:flex items-center gap-1 bg-slate-900/60 p-1.5 rounded-full border border-amber-500/20 backdrop-blur-sm">
+              {navLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  className="px-4 py-1.5 text-xs font-semibold text-slate-300 hover:text-amber-300 rounded-full hover:bg-amber-400/10 transition-all"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </nav>
+
+            <div className="flex items-center gap-3">
+              <button
+                onClick={handleSoundToggle}
+                className={`p-2 rounded-xl text-xs font-medium flex items-center gap-2 border transition-all ${
+                  soundOn
+                    ? 'bg-amber-500/20 text-amber-300 border-amber-400/60 shadow-[0_0_15px_rgba(245,158,11,0.3)]'
+                    : 'bg-slate-900/60 text-slate-400 border-slate-800 hover:text-slate-200 hover:border-slate-700'
+                }`}
+                title={soundOn ? "Mute Ocean Audio" : "Play Ocean Sea Breeze & Audio FX"}
+              >
+                <span className="text-sm">{soundOn ? "🔊" : "🔈"}</span>
+                <span className="hidden sm:inline font-mono text-[11px]">
+                  {soundOn ? "SEA SOUNDS ON" : "AUDIO FX"}
+                </span>
+              </button>
+
+              <div className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 bg-amber-500/10 border border-amber-500/30 rounded-full text-amber-300 text-xs font-mono">
+                <span>⚔️</span>
+                <span>{developerInfo.bounty}</span>
+              </div>
+
+              <a
+                href={developerInfo.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-xl bg-slate-900/60 text-slate-300 hover:text-white border border-slate-800 hover:border-amber-500/40 transition-colors"
+                title="GitHub Profile"
+              >
+                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                  <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+                </svg>
+              </a>
+
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="md:hidden p-2 text-slate-300 hover:text-amber-400 focus:outline-none"
+                aria-label="Toggle Navigation Menu"
+              >
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  {mobileMenuOpen ? (
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  ) : (
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  )}
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          {mobileMenuOpen && (
+            <div className="md:hidden bg-slate-950/95 border-b border-amber-500/20 px-4 pt-2 pb-6 space-y-2 backdrop-blur-xl">
+              {navLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  className="block px-4 py-2.5 rounded-lg text-sm font-semibold text-slate-300 hover:text-amber-300 hover:bg-slate-900 transition-colors"
+                >
+                  {link.label}
+                </a>
+              ))}
+              <div className="pt-2 flex items-center justify-between border-t border-slate-800">
+                <span className="text-xs text-amber-400/80 font-mono">Bounty: {developerInfo.bounty}</span>
+                <a href={developerInfo.linkedin} target="_blank" rel="noopener noreferrer" className="text-xs text-sky-400 hover:underline">
+                  LinkedIn Profile ↗
+                </a>
+              </div>
+            </div>
+          )}
+        </header>
+      );
+    };
+
+    // ==========================================
+    // 6. HERO SECTION — MEET THE CAPTAIN
+    // ==========================================
+    const HeroCaptain = () => {
+      const handleScrollTo = (id) => {
+        soundManager.playClick();
+        const elem = document.querySelector(id);
+        if (elem) elem.scrollIntoView({ behavior: 'smooth' });
+      };
+
+      return (
+        <section id="hero" className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden pt-20 pb-16">
+          <OceanCanvas />
+
+          {/* Thousand Sunny in the distance */}
+          <div className="absolute top-[52%] sm:top-[50%] md:top-[48%] left-[8%] sm:left-[15%] md:left-[22%] z-10 pointer-events-none transform -translate-y-1/2">
+            <div className="animate-bounce opacity-85" style={{ animationDuration: '6s' }}>
+              <ThousandSunnySVG className="w-36 sm:w-48 md:w-56 h-auto drop-shadow-[0_8px_16px_rgba(0,0,0,0.4)]" />
+            </div>
+          </div>
+
+          <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center my-auto">
+            <div className="lg:col-span-7 flex flex-col justify-center text-left space-y-6 pt-8 lg:pt-0">
+              
+              <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-slate-900/70 border border-amber-400/40 backdrop-blur-md w-fit shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                <span className="text-xs font-mono tracking-wider text-amber-200">
+                  CAPTAIN • {developerInfo.pirateRank.toUpperCase()}
+                </span>
+                <span className="text-amber-400/40 text-xs">|</span>
+                <span className="text-xs text-slate-300 font-sans hidden sm:inline">
+                  B.Tech CS • Artificial Intelligence
+                </span>
+              </div>
+
+              <div className="space-y-2">
+                <p className="text-amber-400 font-serif tracking-widest text-sm sm:text-base uppercase flex items-center gap-2">
+                  <span>⚓</span> Navigating the Grand Line of Code
+                </p>
+                <h1 className="text-4xl sm:text-6xl md:text-7xl font-serif font-black tracking-tight text-white leading-[1.08] drop-shadow-[0_4px_12px_rgba(0,0,0,0.6)]">
+                  Hey, I'm <br />
+                  <span className="bg-gradient-to-r from-amber-300 via-orange-300 to-amber-100 bg-clip-text text-transparent">
+                    {developerInfo.name}.
+                  </span>
+                </h1>
+              </div>
+
+              <div className="space-y-3 max-w-2xl">
+                <p className="text-lg sm:text-2xl font-serif text-amber-100/90 font-medium leading-snug">
+                  "{developerInfo.tagline}"
+                </p>
+                <p className="text-sm sm:text-base text-slate-200/90 leading-relaxed font-sans font-light">
+                  Computer Science student specializing in Artificial Intelligence. Venturing through deep neural networks, distributed systems, and fluid modern interfaces with the tenacity of a pirate crew chasing the One Piece.
+                </p>
+              </div>
+
+              <div className="flex flex-wrap gap-2 text-xs font-mono text-slate-300 pt-1">
+                <span className="px-3 py-1 rounded-lg bg-slate-900/60 border border-slate-700/60">
+                  ⚡ PyTorch & Deep Learning
+                </span>
+                <span className="px-3 py-1 rounded-lg bg-slate-900/60 border border-slate-700/60">
+                  🌊 Full-Stack Next.js / Node
+                </span>
+                <span className="px-3 py-1 rounded-lg bg-slate-900/60 border border-slate-700/60">
+                  🎯 60 FPS UI / UX Craft
+                </span>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-4 pt-4">
+                <button
+                  onClick={() => handleScrollTo('#about')}
+                  className="px-6 sm:px-8 py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-400 hover:to-orange-500 text-slate-950 font-serif font-black text-sm tracking-wide shadow-[0_10px_25px_rgba(245,158,11,0.4)] hover:shadow-[0_15px_35px_rgba(245,158,11,0.6)] transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-2 group"
+                >
+                  <span>Explore My Journey</span>
+                  <span className="group-hover:translate-x-1 transition-transform">🧭</span>
+                </button>
+
+                <button
+                  onClick={() => handleScrollTo('#projects')}
+                  className="px-6 sm:px-8 py-3.5 rounded-2xl bg-slate-900/80 hover:bg-slate-800 text-amber-200 font-serif font-bold text-sm tracking-wide border border-amber-400/30 hover:border-amber-400/70 shadow-lg backdrop-blur-md transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-2"
+                >
+                  <span>View My Projects</span>
+                  <span>🍖</span>
+                </button>
+              </div>
+
+              <div className="pt-2 flex items-center gap-3 text-xs text-slate-300/80">
+                <span className="text-amber-400">📜</span>
+                <span>Open for High-Impact Software Engineering & AI Roles</span>
+              </div>
+            </div>
+
+            <div className="lg:col-span-5 flex justify-center items-center relative mt-4 lg:mt-0">
+              <div className="relative w-full max-w-[340px] sm:max-w-[420px] lg:max-w-[460px] animate-pulse" style={{ animationDuration: '4s' }}>
+                <div className="absolute top-8 left-1/2 -translate-x-1/2 w-48 h-48 bg-amber-400/20 rounded-full blur-3xl -z-10 pointer-events-none" />
+                <LuffyHeroArtwork className="w-full h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.7)]" />
+
+                <div className="absolute bottom-4 left-4 bg-slate-950/85 backdrop-blur-md border border-amber-500/40 rounded-xl px-3 py-2 shadow-xl flex items-center gap-2.5">
+                  <span className="text-xl">👒</span>
+                  <div>
+                    <p className="text-[10px] font-mono text-amber-300/80 uppercase">Captain's Bounty</p>
+                    <p className="text-xs font-serif font-bold text-amber-200">{developerInfo.bounty}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            onClick={() => handleScrollTo('#about')}
+            className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 cursor-pointer group select-none"
+          >
+            <span className="text-[11px] font-mono uppercase tracking-widest text-amber-200/80 group-hover:text-amber-300 transition-colors">
+              Set Sail Down The Grand Line
+            </span>
+            <div className="w-6 h-10 rounded-full border-2 border-amber-400/40 group-hover:border-amber-400 flex justify-center p-1 transition-colors">
+              <div className="w-1.5 h-2.5 bg-amber-400 rounded-full animate-bounce" />
+            </div>
+          </div>
+        </section>
+      );
+    };
+
+    // ==========================================
+    // 7. THE GRAND LINE — ABOUT ME
+    // ==========================================
+    const GrandLineAbout = () => {
+      const [activeMilestone, setActiveMilestone] = useState(0);
+
+      const handleSelectMilestone = (idx) => {
+        soundManager.playClick();
+        setActiveMilestone(idx);
+      };
+
+      const current = aboutGrandLine.milestones[activeMilestone];
+
+      return (
+        <section id="about" className="relative min-h-screen py-24 sm:py-32 bg-gradient-to-b from-[#080D1A] via-[#0D1829] to-[#0A1220] overflow-hidden text-slate-100">
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center max-w-3xl mx-auto space-y-4">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-300 font-mono text-xs tracking-widest uppercase">
+                <span>🗺️</span> Section 01 • The Grand Line
+              </div>
+              <h2 className="text-3xl sm:text-5xl font-serif font-black tracking-tight text-white">
+                About The Navigator
+              </h2>
+              <p className="text-sm sm:text-base text-slate-300 font-light leading-relaxed">
+                Charting a course through complex computational landscapes. From foundational algorithms to bleeding-edge neural frontiers.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
+              <div className="group relative rounded-3xl bg-slate-900/60 border border-slate-800 hover:border-amber-400/50 p-6 sm:p-8 backdrop-blur-md transition-all duration-300 hover:shadow-[0_10px_30px_rgba(245,158,11,0.15)] flex flex-col justify-between">
+                <div className="space-y-4">
+                  <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                    ⛵
+                  </div>
+                  <h3 className="text-xl font-serif font-bold text-amber-200">
+                    The Maiden Voyage: Journey into Code
+                  </h3>
+                  <p className="text-sm text-slate-300 leading-relaxed font-light">
+                    {aboutGrandLine.journey}
+                  </p>
+                </div>
+                <div className="pt-6 border-t border-slate-800/80 mt-6 flex items-center justify-between text-xs font-mono text-amber-300/80">
+                  <span>ORIGIN: East Blue Terminal</span>
+                  <span>SOLID FOUNDATIONS</span>
+                </div>
+              </div>
+
+              <div className="group relative rounded-3xl bg-slate-900/60 border border-slate-800 hover:border-sky-400/50 p-6 sm:p-8 backdrop-blur-md transition-all duration-300 hover:shadow-[0_10px_30px_rgba(56,189,248,0.15)] flex flex-col justify-between">
+                <div className="space-y-4">
+                  <div className="w-12 h-12 rounded-2xl bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                    🧠
+                  </div>
+                  <h3 className="text-xl font-serif font-bold text-sky-200">
+                    Dual Mastery: Web Engineering & AI/ML
+                  </h3>
+                  <p className="text-sm text-slate-300 leading-relaxed font-light">
+                    {aboutGrandLine.interests}
+                  </p>
+                </div>
+                <div className="pt-6 border-t border-slate-800/80 mt-6 flex items-center justify-between text-xs font-mono text-sky-300/80">
+                  <span>SPECIALIZATION: Deep Learning</span>
+                  <span>STACK: PyTorch • Next.js</span>
+                </div>
+              </div>
+
+              <div className="group relative rounded-3xl bg-slate-900/60 border border-slate-800 hover:border-purple-400/50 p-6 sm:p-8 backdrop-blur-md transition-all duration-300 hover:shadow-[0_10px_30px_rgba(168,85,247,0.15)] flex flex-col justify-between">
+                <div className="space-y-4">
+                  <div className="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                    🌟
+                  </div>
+                  <h3 className="text-xl font-serif font-bold text-purple-200">
+                    The New World: Long-Term Ambitions
+                  </h3>
+                  <p className="text-sm text-slate-300 leading-relaxed font-light">
+                    {aboutGrandLine.ambition}
+                  </p>
+                </div>
+                <div className="pt-6 border-t border-slate-800/80 mt-6 flex items-center justify-between text-xs font-mono text-purple-300/80">
+                  <span>TARGET: Foundational AI Impact</span>
+                  <span>GLOBAL SCALE</span>
+                </div>
+              </div>
+
+              <div className="group relative rounded-3xl bg-slate-900/60 border border-slate-800 hover:border-orange-400/50 p-6 sm:p-8 backdrop-blur-md transition-all duration-300 hover:shadow-[0_10px_30px_rgba(249,115,22,0.15)] flex flex-col justify-between">
+                <div className="space-y-4">
+                  <div className="w-12 h-12 rounded-2xl bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                    👑
+                  </div>
+                  <h3 className="text-xl font-serif font-bold text-orange-200">
+                    The Captain's Mindset: Problem Solving
+                  </h3>
+                  <p className="text-sm text-slate-300 leading-relaxed font-light">
+                    {aboutGrandLine.problemSolvingApproach}
+                  </p>
+                </div>
+                <div className="pt-6 border-t border-slate-800/80 mt-6 flex items-center justify-between text-xs font-mono text-orange-300/80">
+                  <span>PHILOSOPHY: Relentless Momentum</span>
+                  <span>NO SHORTCUTS</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Map-Inspired Waypoints */}
+            <div className="mt-24 pt-12 border-t border-slate-800/80">
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
+                <div>
+                  <p className="text-xs font-mono text-amber-400 uppercase tracking-widest flex items-center gap-2">
+                    <span>📍</span> Nautical Route Chart
+                  </p>
+                  <h3 className="text-2xl sm:text-3xl font-serif font-bold text-white mt-1">
+                    Grand Line Waypoints & Milestones
+                  </h3>
+                </div>
+                <p className="text-xs text-slate-400 max-w-sm font-light">
+                  Click each island waypoint along the sea route to inspect historical voyages, technical discoveries, and breakthroughs.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                {aboutGrandLine.milestones.map((ms, idx) => {
+                  const isSelected = activeMilestone === idx;
+                  return (
+                    <button
+                      key={ms.id}
+                      onClick={() => handleSelectMilestone(idx)}
+                      className={`p-4 rounded-2xl text-left border transition-all duration-300 relative overflow-hidden ${
+                        isSelected
+                          ? 'bg-amber-500/15 border-amber-400 shadow-[0_4px_20px_rgba(245,158,11,0.25)]'
+                          : 'bg-slate-900/50 border-slate-800 hover:border-slate-700 hover:bg-slate-900/80'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full ${
+                          isSelected ? 'bg-amber-400 text-slate-950 font-bold' : 'bg-slate-800 text-slate-400'
+                        }`}>
+                          0{idx + 1}
+                        </span>
+                        <span className="text-xs text-slate-400 font-mono">{ms.period}</span>
+                      </div>
+                      <h4 className={`text-sm font-serif font-bold ${isSelected ? 'text-amber-200' : 'text-slate-300'}`}>
+                        {ms.island}
+                      </h4>
+                      <p className="text-[11px] text-slate-400 truncate mt-1">
+                        {ms.coordinates}
+                      </p>
+                      {isSelected && (
+                        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-400 to-orange-500" />
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="relative rounded-3xl bg-gradient-to-br from-slate-900/90 via-slate-900/70 to-slate-950/90 border border-amber-400/30 p-6 sm:p-10 shadow-2xl backdrop-blur-xl">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                  <div className="lg:col-span-4 flex flex-col items-center justify-center p-6 rounded-2xl bg-slate-950/60 border border-slate-800/80 text-center space-y-4">
+                    <div className="w-20 h-20 rounded-full bg-amber-500/10 border-2 border-amber-400/40 flex items-center justify-center text-4xl shadow-inner">
+                      🏝️
+                    </div>
+                    <div>
+                      <span className="text-xs font-mono text-amber-400/80 uppercase tracking-wider">
+                        Waypoint 0{activeMilestone + 1}
+                      </span>
+                      <h4 className="text-xl font-serif font-black text-amber-100 mt-1">
+                        {current.island}
+                      </h4>
+                      <p className="text-xs font-mono text-slate-400 mt-1">
+                        {current.coordinates}
+                      </p>
+                    </div>
+                    <div className="w-full pt-3 border-t border-slate-800 flex justify-center">
+                      <span className="inline-flex items-center gap-1.5 text-xs text-amber-300 font-mono">
+                        <LogPoseIcon className="w-4 h-4 text-amber-400" />
+                        Log Pose Locked
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="lg:col-span-8 space-y-5">
+                    <div>
+                      <span className="text-xs font-mono text-amber-400 uppercase tracking-widest">
+                        Expedition Record • {current.period}
+                      </span>
+                      <h4 className="text-2xl sm:text-3xl font-serif font-black text-white mt-1">
+                        {current.title}
+                      </h4>
+                    </div>
+
+                    <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-light">
+                      {current.description}
+                    </p>
+
+                    <div>
+                      <p className="text-xs font-mono uppercase tracking-wider text-slate-400 mb-2">
+                        Battle-Tested Skills Acquired at this Port:
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {current.skills.map((skill) => (
+                          <span
+                            key={skill}
+                            className="px-3 py-1 rounded-xl bg-amber-400/10 border border-amber-400/30 text-amber-200 text-xs font-mono shadow-sm"
+                          >
+                            ⚔️ {skill}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+      );
+    };
+
+    // ==========================================
+    // 8. ZORO'S DOJO — TECHNICAL SKILLS
+    // ==========================================
+    const ZoroDojo = () => {
+      const [slashedCard, setSlashedCard] = useState(null);
+
+      const handleCardMouseEnter = (id) => {
+        setSlashedCard(id);
+        soundManager.playSwordSlash();
+      };
+
+      const handleCardMouseLeave = () => {
+        setSlashedCard(null);
+      };
+
+      return (
+        <section id="skills" className="relative min-h-screen py-24 sm:py-32 bg-gradient-to-b from-[#0A1220] via-[#091526] to-[#0A101D] text-slate-100 overflow-hidden">
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center max-w-3xl mx-auto space-y-4">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-400/30 text-emerald-300 font-mono text-xs tracking-widest uppercase">
+                <span>⚔️</span> Section 02 • Zoro's Dojo
+              </div>
+              <h2 className="text-3xl sm:text-5xl font-serif font-black tracking-tight text-white">
+                Santoryu Technical Mastery
+              </h2>
+              <p className="text-sm sm:text-base text-slate-300 font-light leading-relaxed">
+                Honed through thousands of hours of rigorous problem solving. Disciplined, battle-tested software engineering across client, server, and neural architectures.
+              </p>
+
+              <div className="pt-4 flex flex-col items-center">
+                <SantoryuSwordsSVG className="w-full max-w-md h-auto drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]" />
+                <div className="flex flex-wrap justify-center gap-4 sm:gap-8 text-xs font-mono text-slate-400 mt-2">
+                  <span className="flex items-center gap-1.5 text-slate-200">
+                    <span className="w-2 h-2 rounded-full bg-white shadow-[0_0_8px_#FFF]" />
+                    Wado Ichimonji (Frontend & Langs)
+                  </span>
+                  <span className="flex items-center gap-1.5 text-red-300">
+                    <span className="w-2 h-2 rounded-full bg-red-500 shadow-[0_0_8px_#EF4444]" />
+                    Sandai Kitetsu (Backend & DBs)
+                  </span>
+                  <span className="flex items-center gap-1.5 text-purple-300">
+                    <span className="w-2 h-2 rounded-full bg-purple-500 shadow-[0_0_8px_#A855F7]" />
+                    Enma (AI/ML & Cloud)
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-16">
+              {zoroSkills.map((category) => {
+                const isSlashed = slashedCard === category.id;
+
+                return (
+                  <div
+                    key={category.id}
+                    onMouseEnter={() => handleCardMouseEnter(category.id)}
+                    onMouseLeave={handleCardMouseLeave}
+                    className="group relative rounded-3xl bg-slate-900/60 border border-slate-800 p-6 sm:p-7 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl overflow-hidden flex flex-col justify-between cursor-default"
+                    style={{
+                      boxShadow: isSlashed ? `0 12px 35px ${category.glowColor}` : 'none',
+                      borderColor: isSlashed ? 'rgba(255,255,255,0.3)' : undefined
+                    }}
+                  >
+                    {isSlashed && (
+                      <div className="absolute inset-0 pointer-events-none z-30 overflow-hidden">
+                        <div
+                          className="absolute w-[200%] h-1 bg-gradient-to-r from-transparent via-white to-transparent top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-45"
+                          style={{
+                            animation: 'slashStreak 0.35s ease-out forwards',
+                            boxShadow: `0 0 20px 4px ${category.glowColor}`
+                          }}
+                        />
+                        <div className="absolute inset-0 bg-white/5 animate-pulse" />
+                      </div>
+                    )}
+
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-mono px-2.5 py-1 rounded-full bg-slate-800/80 text-amber-300 border border-amber-400/20">
+                          {category.sword}
+                        </span>
+                        <span className="text-[11px] font-mono text-slate-400">
+                          {category.category}
+                        </span>
+                      </div>
+
+                      <h3 className="text-xl font-serif font-black text-white group-hover:text-amber-200 transition-colors">
+                        {category.title}
+                      </h3>
+
+                      <p className="text-xs text-slate-300 leading-relaxed font-light">
+                        {category.description}
+                      </p>
+                    </div>
+
+                    <div className="mt-6 pt-5 border-t border-slate-800/80 space-y-3">
+                      <div className="flex items-center justify-between text-[11px] font-mono text-slate-400">
+                        <span>Mastered Competencies</span>
+                        <span className="text-amber-400/80">60 FPS Ready</span>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-2">
+                        {category.technologies.map((tech) => (
+                          <div
+                            key={tech.name}
+                            className="p-2 rounded-xl bg-slate-950/70 border border-slate-800/80 group-hover:border-slate-700 transition-colors flex flex-col justify-between"
+                          >
+                            <span className="text-xs font-semibold text-slate-200">
+                              {tech.name}
+                            </span>
+                            <span className="text-[10px] font-mono text-amber-300/80 mt-0.5">
+                              {tech.tag}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="mt-4 pt-2 flex items-center gap-2 text-[10px] font-mono text-slate-400">
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                      <span>{category.swordAura}</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="mt-16 p-6 rounded-2xl bg-slate-900/40 border border-slate-800 max-w-2xl mx-auto text-center backdrop-blur-sm">
+              <p className="font-serif italic text-sm text-slate-300 leading-relaxed">
+                "{animeQuotes[1].quote}"
+              </p>
+              <p className="text-xs font-mono text-emerald-400 mt-2 font-semibold">
+                — {animeQuotes[1].author} • {animeQuotes[1].role}
+              </p>
+            </div>
+          </div>
+        </section>
+      );
+    };
+
+    // ==========================================
+    // 9. SANJI'S KITCHEN — MY PROJECTS
+    // ==========================================
+    const ProjectCard = ({ project }) => {
+      const cardRef = useRef(null);
+      const [transformStyle, setTransformStyle] = useState('');
+      const [glowPos, setGlowPos] = useState({ x: 50, y: 50 });
+
+      const handleMouseMove = (e) => {
+        const card = cardRef.current;
+        if (!card) return;
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        const rotateX = ((y - centerY) / centerY) * -7;
+        const rotateY = ((x - centerX) / centerX) * 7;
+
+        setTransformStyle(`perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`);
+        setGlowPos({ x: (x / rect.width) * 100, y: (y / rect.height) * 100 });
+      };
+
+      const handleMouseLeave = () => {
+        setTransformStyle('perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)');
+      };
+
+      return (
+        <div
+          ref={cardRef}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+          style={{
+            transform: transformStyle,
+            transition: 'transform 0.15s ease-out, box-shadow 0.25s ease'
+          }}
+          className="group relative rounded-3xl bg-slate-900/70 border border-slate-800 hover:border-amber-400/40 p-6 sm:p-7 backdrop-blur-md shadow-xl flex flex-col justify-between overflow-hidden"
+        >
+          <div
+            className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            style={{
+              background: `radial-gradient(circle 220px at ${glowPos.x}% ${glowPos.y}%, rgba(245, 158, 11, 0.15), transparent 70%)`
+            }}
+          />
+
+          <div className="space-y-3 relative z-10">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-mono px-3 py-1 rounded-full bg-amber-500/15 text-amber-300 border border-amber-400/30 font-semibold tracking-wider uppercase">
+                {project.badge}
+              </span>
+              <span className="text-[11px] font-mono text-slate-400">
+                {project.category}
+              </span>
+            </div>
+
+            <div>
+              <span className="text-[11px] font-mono text-amber-400/80 flex items-center gap-1.5">
+                <span>🔥</span> {project.flavor}
+              </span>
+              <h3 className="text-xl sm:text-2xl font-serif font-black text-white group-hover:text-amber-200 transition-colors mt-1">
+                {project.title}
+              </h3>
+            </div>
+
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-light">
+              {project.description}
+            </p>
+
+            {project.stats && (
+              <div className="grid grid-cols-3 gap-2 py-3 px-3 rounded-2xl bg-slate-950/60 border border-slate-800/80 text-center font-mono">
+                {Object.entries(project.stats).map(([k, v]) => (
+                  <div key={k}>
+                    <span className="block text-[10px] text-slate-400 uppercase tracking-wider">{k}</span>
+                    <span className="block text-xs font-bold text-amber-300">{v}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div className="flex flex-wrap gap-1.5 pt-2">
+              {project.technologies.map((tech) => (
+                <span
+                  key={tech}
+                  className="px-2.5 py-0.5 rounded-lg bg-slate-800/60 border border-slate-700/60 text-slate-300 text-[11px] font-mono"
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="pt-6 border-t border-slate-800/80 mt-6 flex items-center justify-between gap-3 relative z-10">
+            <a
+              href={project.demo}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => soundManager.playClick()}
+              className="flex-1 py-2.5 px-4 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-serif font-black text-xs text-center shadow-lg hover:shadow-amber-500/30 transition-all active:scale-95 flex items-center justify-center gap-1.5"
+            >
+              <span>View Project</span>
+              <span>↗</span>
+            </a>
+
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => soundManager.playClick()}
+              className="py-2.5 px-4 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-200 hover:text-white font-mono text-xs border border-slate-700 hover:border-slate-600 transition-all active:scale-95 flex items-center gap-1.5"
+              title="Inspect Source Code on GitHub"
+            >
+              <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+              </svg>
+              <span>GitHub</span>
+            </a>
+          </div>
+        </div>
+      );
+    };
+
+    const SanjiKitchen = () => {
+      const [activeFilter, setActiveFilter] = useState("All");
+
+      const categories = [
+        "All",
+        "AI & Machine Learning",
+        "Computer Vision",
+        "Full-Stack Web",
+        "Systems & Security"
+      ];
+
+      const filteredProjects = activeFilter === "All"
+        ? sanjiProjects
+        : sanjiProjects.filter(p => p.category === activeFilter);
+
+      const handleFilterClick = (cat) => {
+        soundManager.playClick();
+        setActiveFilter(cat);
+      };
+
+      return (
+        <section id="projects" className="relative min-h-screen py-24 sm:py-32 bg-gradient-to-b from-[#0A101D] via-[#0C1527] to-[#0A0F1D] text-slate-100 overflow-hidden">
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center max-w-3xl mx-auto space-y-4">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-400/30 text-amber-300 font-mono text-xs tracking-widest uppercase">
+                <span>🍳</span> Section 03 • Sanji's Kitchen
+              </div>
+              <h2 className="text-3xl sm:text-5xl font-serif font-black tracking-tight text-white">
+                Gourmet Engineering Creations
+              </h2>
+              <p className="text-sm sm:text-base text-slate-300 font-light leading-relaxed">
+                Prepared with passion, refined architectural ingredients, and uncompromising attention to detail. Every project crafted to feed curiosity and deliver real utility.
+              </p>
+
+              <div className="pt-2 flex justify-center">
+                <a
+                  href="https://github.com/adimehra343-jpg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/80 border border-slate-700 hover:border-amber-400/50 text-xs font-mono text-slate-300 hover:text-amber-300 transition-colors shadow-sm"
+                >
+                  <span>⚓ Verified GitHub:</span>
+                  <span className="font-bold text-amber-400">@adimehra343-jpg</span>
+                  <span>↗</span>
+                </a>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mt-12 mb-12">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => handleFilterClick(cat)}
+                  className={`px-4 sm:px-5 py-2 rounded-full text-xs font-serif font-bold transition-all duration-300 ${
+                    activeFilter === cat
+                      ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 shadow-lg shadow-amber-500/30 scale-105'
+                      : 'bg-slate-900/60 hover:bg-slate-800 text-slate-300 border border-slate-800 hover:border-slate-700'
+                  }`}
+                >
+                  {cat === "All" ? "🍽️ All Courses" : cat}
+                </button>
+              ))}
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+              {filteredProjects.map((project) => (
+                <ProjectCard key={project.id} project={project} />
+              ))}
+            </div>
+
+            <div className="mt-20 p-6 rounded-2xl bg-slate-900/40 border border-slate-800 max-w-2xl mx-auto text-center backdrop-blur-sm">
+              <p className="font-serif italic text-sm text-slate-300 leading-relaxed">
+                "{animeQuotes[2].quote}"
+              </p>
+              <p className="text-xs font-mono text-amber-400 mt-2 font-semibold">
+                — {animeQuotes[2].author} • {animeQuotes[2].role}
+              </p>
+            </div>
+          </div>
+        </section>
+      );
+    };
+
+    // ==========================================
+    // 10. SIGNATURE INTERACTION — LUFFY'S STRETCHING ARM
+    // ==========================================
+    const LuffyStretchingArm = () => {
+      const [scrollProgress, setScrollProgress] = useState(0);
+      const [isAtBottom, setIsAtBottom] = useState(false);
+      const [hasCelebrated, setHasCelebrated] = useState(false);
+      const [bannerVisible, setBannerVisible] = useState(false);
+      const [confettiParticles, setConfettiParticles] = useState([]);
+
+      const animationFrameRef = useRef(null);
+      const targetProgress = useRef(0);
+      const currentProgress = useRef(0);
+      const velocity = useRef(0);
+      const lastScrollY = useRef(0);
+      const wobbleRef = useRef(0);
+
+      useEffect(() => {
+        const handleScroll = () => {
+          const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+          if (scrollHeight > 0) {
+            const p = Math.max(0, Math.min(1, window.scrollY / scrollHeight));
+            targetProgress.current = p;
+            velocity.current = (window.scrollY - lastScrollY.current) / (scrollHeight || 1);
+            lastScrollY.current = window.scrollY;
+          }
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        handleScroll();
+
+        const updatePhysics = () => {
+          const diff = targetProgress.current - currentProgress.current;
+          currentProgress.current += diff * 0.14;
+          wobbleRef.current += 0.08;
+
+          setScrollProgress(currentProgress.current);
+          setIsAtBottom(currentProgress.current >= 0.95);
+
+          animationFrameRef.current = requestAnimationFrame(updatePhysics);
+        };
+
+        animationFrameRef.current = requestAnimationFrame(updatePhysics);
+
+        return () => {
+          window.removeEventListener('scroll', handleScroll);
+          if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
+        };
+      }, []);
+
+      useEffect(() => {
+        if (isAtBottom && !hasCelebrated) {
+          setHasCelebrated(true);
+          setBannerVisible(true);
+          soundManager.playMeatGrabCelebration();
+
+          document.body.classList.add('screen-bounce-active');
+          setTimeout(() => {
+            document.body.classList.remove('screen-bounce-active');
+          }, 700);
+
+          const particles = Array.from({ length: 36 }).map((_, i) => ({
+            id: i,
+            x: (Math.random() - 0.5) * 180,
+            y: (Math.random() - 0.5) * 180,
+            color: ['#F59E0B', '#EF4444', '#FBBF24', '#3B82F6', '#10B981', '#FFF'][i % 6],
+            size: Math.random() * 8 + 4,
+            rot: Math.random() * 360
+          }));
+          setConfettiParticles(particles);
+        } else if (!isAtBottom && currentProgress.current < 0.88) {
+          setHasCelebrated(false);
+        }
+      }, [isAtBottom, hasCelebrated]);
+
+      const scrollToTop = () => {
+        soundManager.playClick();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      };
+
+      const trackHeight = 440;
+      const startX = 32;
+      const startY = 56;
+      const targetY = startY + (trackHeight - 110) * scrollProgress;
+
+      const curvature = Math.sin(scrollProgress * Math.PI * 3 + wobbleRef.current) * (4 + Math.abs(velocity.current) * 80);
+      const midX = startX + curvature;
+      const midY = (startY + targetY) / 2;
+      const armThickness = Math.max(5.5, 9.5 - scrollProgress * 3.5);
+
+      return (
+        <React.Fragment>
+          <aside
+            aria-label="Interactive Grand Line Scroll Progress"
+            className="fixed right-2 sm:right-6 md:right-8 top-1/2 -translate-y-1/2 z-40 flex flex-col items-center select-none"
+            style={{ height: `${trackHeight}px` }}
+          >
+            <div className="absolute top-12 bottom-12 w-1.5 bg-gradient-to-b from-amber-400/20 via-sky-500/20 to-orange-500/30 rounded-full backdrop-blur-sm pointer-events-none" />
+
+            <div className="absolute top-14 bottom-14 flex flex-col justify-between items-center pointer-events-none opacity-40">
+              <span className="w-2.5 h-0.5 bg-amber-400/80 rounded" title="East Blue" />
+              <span className="w-2 h-0.5 bg-sky-400/80 rounded" title="Grand Line" />
+              <span className="w-2.5 h-0.5 bg-purple-400/80 rounded" title="New World" />
+              <span className="w-2 h-0.5 bg-rose-400/80 rounded" title="Laugh Tale" />
+            </div>
+
+            <svg
+              width="74"
+              height={trackHeight}
+              className="overflow-visible pointer-events-none"
+              viewBox={`0 0 74 ${trackHeight}`}
+            >
+              <defs>
+                <linearGradient id="armFlesh" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#F5CD9B" />
+                  <stop offset="50%" stopColor="#FDE6C8" />
+                  <stop offset="100%" stopColor="#EAB308" />
+                </linearGradient>
+              </defs>
+
+              {/* Luffy Bust at Top */}
+              <g transform="translate(12, 2)">
+                <ellipse cx="25" cy="18" rx="24" ry="7" fill="#FBBF24" stroke="#78350F" strokeWidth="1.5" />
+                <path d="M12 18 C 12 7, 38 7, 38 18 Z" fill="#FBBF24" stroke="#78350F" strokeWidth="1.5" />
+                <path d="M12 16 Q 25 14 38 16 L 38 19 Q 25 17 12 19 Z" fill="#DC2626" />
+                <path d="M14 20 C 12 28, 16 32, 20 30 C 23 34, 28 34, 32 30 C 35 32, 38 28, 36 20 Z" fill="#111827" />
+                <ellipse cx="25" cy="27" rx="10" ry="9" fill="#FDE6C8" stroke="#78350F" strokeWidth="1" />
+                <path d="M20 29 L 23 30" stroke="#DC2626" strokeWidth="1" />
+                <path d="M19 30 Q 25 35 31 30 Z" fill="#FFF" stroke="#111827" strokeWidth="1" />
+                <circle cx="21" cy="26" r="1.5" fill="#111827" />
+                <circle cx="29" cy="26" r="1.5" fill="#111827" />
+                <path d="M16 34 L 14 48 L 36 48 L 34 34 Z" fill="#DC2626" stroke="#991B1B" strokeWidth="1.2" />
+                <rect x="15" y="46" width="20" height="4" fill="#F59E0B" />
+                <path d="M14 36 Q 4 42 10 48" stroke="#FDE6C8" strokeWidth="4" strokeLinecap="round" fill="none" />
+                <circle cx="10" cy="48" r="3" fill="#F5CD9B" stroke="#78350F" strokeWidth="1" />
+                <circle cx="34" cy="38" r="4" fill="#F5CD9B" stroke="#9A3412" strokeWidth="1" />
+              </g>
+
+              {/* Stretching Arm Outline & Fill */}
+              <path
+                d={`M ${startX} ${startY} Q ${midX} ${midY} ${startX} ${targetY}`}
+                fill="none"
+                stroke="#9A3412"
+                strokeWidth={armThickness + 2}
+                strokeLinecap="round"
+              />
+              <path
+                d={`M ${startX} ${startY} Q ${midX} ${midY} ${startX} ${targetY}`}
+                fill="none"
+                stroke="url(#armFlesh)"
+                strokeWidth={armThickness}
+                strokeLinecap="round"
+              />
+
+              {[0.25, 0.5, 0.75].map((factor, i) => {
+                const yPos = startY + (targetY - startY) * factor;
+                const xPos = startX + Math.sin(factor * Math.PI) * curvature * 0.8;
+                return (
+                  <ellipse key={i} cx={xPos} cy={yPos} rx={armThickness / 2 + 1} ry={2} fill="#FBBF24" opacity={0.65} />
+                );
+              })}
+
+              {/* Hand */}
+              <g transform={`translate(${startX - 18}, ${targetY - 14})`}>
+                {isAtBottom ? (
+                  <g className="animate-pulse">
+                    <ellipse cx="18" cy="18" rx="10" ry="8" fill="#FDE6C8" stroke="#78350F" strokeWidth="1.5" />
+                    <path d="M11 15 Q 18 12 25 15" stroke="#9A3412" strokeWidth="2" fill="none" />
+                    <path d="M12 18 Q 18 15 24 18" stroke="#9A3412" strokeWidth="2" fill="none" />
+                    <path d="M13 21 Q 18 19 23 21" stroke="#9A3412" strokeWidth="2" fill="none" />
+                    <circle cx="18" cy="18" r="14" fill="none" stroke="#F59E0B" strokeWidth="1.5" strokeDasharray="3 3" />
+                  </g>
+                ) : (
+                  <g>
+                    <ellipse cx="18" cy="14" rx="7" ry="6" fill="#FDE6C8" stroke="#78350F" strokeWidth="1.2" />
+                    <path d="M12 15 L 10 24" stroke="#FDE6C8" strokeWidth="3" strokeLinecap="round" />
+                    <path d="M15 17 L 14 27" stroke="#FDE6C8" strokeWidth="3" strokeLinecap="round" />
+                    <path d="M18 17 L 18 28" stroke="#FDE6C8" strokeWidth="3" strokeLinecap="round" />
+                    <path d="M21 17 L 22 26" stroke="#FDE6C8" strokeWidth="3" strokeLinecap="round" />
+                    <path d="M24 15 L 26 22" stroke="#FDE6C8" strokeWidth="2.5" strokeLinecap="round" />
+                    <path d="M10 24 L 10 25 M 14 27 L 14 28 M 18 28 L 18 29 M 22 26 L 22 27" stroke="#9A3412" strokeWidth="1.5" strokeLinecap="round" />
+                  </g>
+                )}
+              </g>
+            </svg>
+
+            {/* Giant Manga Meat at Bottom */}
+            <div
+              className={`absolute bottom-0 z-20 flex flex-col items-center transition-all duration-300 pointer-events-auto ${
+                isAtBottom ? 'scale-110 drop-shadow-[0_0_25px_rgba(245,158,11,0.9)]' : 'scale-90 hover:scale-100 opacity-90'
+              }`}
+              title="Luffy's Grand Prize: Giant Manga Meat!"
+            >
+              <div className="w-14 h-2 bg-gradient-to-r from-amber-600 via-amber-300 to-amber-700 rounded-full shadow-md mb-1" />
+              <MangaMeatSVG className="w-14 h-14" isGrabbed={isAtBottom} />
+
+              {isAtBottom && (
+                <div className="absolute -top-10 -right-6 animate-bounce select-none">
+                  <span className="inline-block px-2 py-0.5 bg-gradient-to-r from-red-600 to-amber-500 text-white font-serif font-black text-xs tracking-wider rounded shadow-lg border border-yellow-300">
+                    ドン!! (DON!!)
+                  </span>
+                </div>
+              )}
+            </div>
+
+            <div className="absolute -left-14 top-1/2 -translate-y-1/2 opacity-0 hover:opacity-100 transition-opacity bg-slate-900/90 text-amber-300 text-[10px] font-mono px-2 py-1 rounded border border-amber-500/30 whitespace-nowrap pointer-events-none">
+              {Math.round(scrollProgress * 100)}% Voyage
+            </div>
+          </aside>
+
+          {/* Adventure Completed Banner */}
+          {bannerVisible && isAtBottom && (
+            <div
+              role="status"
+              aria-live="polite"
+              className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 max-w-lg w-[92%] sm:w-auto"
+            >
+              <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 p-6 border-2 border-amber-400 shadow-[0_20px_50px_rgba(245,158,11,0.35)] backdrop-blur-xl">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-400/10 to-transparent -translate-x-full animate-[shimmer_2.5s_infinite]" />
+
+                <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                  {confettiParticles.map((p) => (
+                    <div
+                      key={p.id}
+                      className="absolute left-1/2 top-1/2 rounded-full animate-ping"
+                      style={{
+                        backgroundColor: p.color,
+                        width: `${p.size}px`,
+                        height: `${p.size}px`,
+                        transform: `translate(${p.x}px, ${p.y}px) rotate(${p.rot}deg)`,
+                        animationDuration: '1.2s'
+                      }}
+                    />
+                  ))}
+                </div>
+
+                <div className="relative z-10 flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+                  <div className="w-16 h-16 rounded-full bg-amber-500/20 border border-amber-400 flex items-center justify-center p-2 shrink-0 shadow-inner">
+                    <MangaMeatSVG className="w-12 h-12" isGrabbed={true} />
+                  </div>
+
+                  <div className="flex-1">
+                    <div className="flex items-center justify-center sm:justify-start gap-2">
+                      <span className="px-2 py-0.5 rounded text-[10px] font-bold tracking-widest bg-amber-500/20 text-amber-300 border border-amber-400/40 uppercase">
+                        Grand Line Conquered
+                      </span>
+                      <span className="text-xs text-amber-200">🍖 Feast Time!</span>
+                    </div>
+                    <h3 className="text-xl sm:text-2xl font-serif font-black text-amber-300 tracking-wide mt-1">
+                      Adventure Completed!
+                    </h3>
+                    <p className="text-xs sm:text-sm text-slate-300 mt-0.5">
+                      Luffy successfully claimed the giant roasted meat! Ready to embark on your next engineering voyage together?
+                    </p>
+                  </div>
+
+                  <div className="flex sm:flex-col gap-2 shrink-0 mt-2 sm:mt-0">
+                    <button
+                      onClick={scrollToTop}
+                      className="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-slate-950 font-bold text-xs sm:text-sm shadow-lg hover:shadow-amber-500/50 transition-all active:scale-95 flex items-center gap-1.5"
+                    >
+                      <span>⚓ Sail to Top</span>
+                    </button>
+                    <button
+                      onClick={() => setBannerVisible(false)}
+                      className="px-3 py-1.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 text-xs transition-colors"
+                    >
+                      Dismiss
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </React.Fragment>
+      );
+    };
+
+    // ==========================================
+    // 11. THE CREW — CONTACT SECTION
+    // ==========================================
+    const CrewContact = () => {
+      const [copiedEmail, setCopiedEmail] = useState(false);
+      const [formState, setFormState] = useState({ name: '', email: '', message: '' });
+      const [formSent, setFormSent] = useState(false);
+
+      const handleCopyEmail = () => {
+        soundManager.playClick();
+        navigator.clipboard.writeText(developerInfo.email);
+        setCopiedEmail(true);
+        setTimeout(() => setCopiedEmail(false), 2500);
+      };
+
+      const handleSendMessage = (e) => {
+        e.preventDefault();
+        soundManager.playChime();
+        setFormSent(true);
+      };
+
+      return (
+        <section id="contact" className="relative min-h-screen py-24 sm:py-32 bg-gradient-to-b from-[#0A0F1D] via-[#141529] to-[#080D1A] text-slate-100 overflow-hidden">
+          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[500px] bg-gradient-to-b from-orange-500/15 via-amber-500/10 to-transparent rounded-full blur-3xl pointer-events-none" />
+
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center max-w-3xl mx-auto space-y-4">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-500/10 border border-orange-400/30 text-orange-300 font-mono text-xs tracking-widest uppercase">
+                <span>🌅</span> Section 04 • The Crew
+              </div>
+              <h2 className="text-3xl sm:text-5xl font-serif font-black tracking-tight text-white leading-tight">
+                Every great adventure needs a crew.
+              </h2>
+              <p className="text-base sm:text-lg text-amber-200/90 font-serif font-medium">
+                Have an idea? Let's build something amazing together.
+              </p>
+              <p className="text-xs sm:text-sm text-slate-300 font-light max-w-xl mx-auto leading-relaxed">
+                Whether you are looking to recruit a dedicated AI & Full-Stack engineer, collaborate on breakthrough software, or discuss distributed systems over tea, my transponder snail is always active.
+              </p>
+            </div>
+
+            <div className="my-14 flex justify-center">
+              <div className="relative w-full max-w-4xl rounded-3xl overflow-hidden border border-amber-500/30 bg-slate-950/80 shadow-[0_20px_50px_rgba(249,115,22,0.2)] backdrop-blur-xl">
+                <CrewSunsetSVG className="w-full h-auto" />
+                <div className="absolute bottom-4 left-6 right-6 flex items-center justify-between text-[11px] font-mono text-amber-300/80">
+                  <span className="flex items-center gap-1.5">
+                    <span>⚓</span> Straw Hat Trio • Grand Line Horizon
+                  </span>
+                  <span className="hidden sm:inline">Coord: 35°41'N, 139°46'E</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mt-12">
+              <div className="lg:col-span-5 space-y-4">
+                <a
+                  href={developerInfo.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => soundManager.playClick()}
+                  className="group p-5 rounded-2xl bg-slate-900/70 border border-slate-800 hover:border-amber-400/50 flex items-center gap-4 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-slate-800/80 border border-slate-700 flex items-center justify-center text-slate-200 group-hover:text-amber-400 group-hover:border-amber-400/40 transition-colors">
+                    <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                      <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <span className="text-[10px] font-mono text-amber-400 uppercase tracking-wider">GitHub Profile</span>
+                    <h4 className="text-base font-serif font-bold text-white group-hover:text-amber-300 transition-colors">
+                      github.com/adimehra343-jpg
+                    </h4>
+                    <p className="text-xs text-slate-400">Repositories, architectures, and open source</p>
+                  </div>
+                  <span className="text-slate-400 group-hover:text-amber-400 group-hover:translate-x-1 transition-all">↗</span>
+                </a>
+
+                <a
+                  href={developerInfo.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => soundManager.playClick()}
+                  className="group p-5 rounded-2xl bg-slate-900/70 border border-slate-800 hover:border-sky-400/50 flex items-center gap-4 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-slate-800/80 border border-slate-700 flex items-center justify-center text-slate-200 group-hover:text-sky-400 group-hover:border-sky-400/40 transition-colors">
+                    <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                      <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <span className="text-[10px] font-mono text-sky-400 uppercase tracking-wider">LinkedIn Network</span>
+                    <h4 className="text-base font-serif font-bold text-white group-hover:text-sky-300 transition-colors">
+                      Aditya Mehra on LinkedIn
+                    </h4>
+                    <p className="text-xs text-slate-400">Professional connections & endorsements</p>
+                  </div>
+                  <span className="text-slate-400 group-hover:text-sky-400 group-hover:translate-x-1 transition-all">↗</span>
+                </a>
+
+                <div className="p-5 rounded-2xl bg-slate-900/70 border border-slate-800 flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-slate-800/80 border border-slate-700 flex items-center justify-center text-amber-400 text-xl">
+                      ✉️
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-mono text-amber-400 uppercase tracking-wider">Direct Transponder Snail</span>
+                      <h4 className="text-sm sm:text-base font-serif font-bold text-white">
+                        {developerInfo.email}
+                      </h4>
+                      <p className="text-xs text-slate-400">Replies usually within 24 hours</p>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <button
+                      onClick={handleCopyEmail}
+                      className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-300 text-xs font-mono border border-slate-700 transition-colors"
+                    >
+                      {copiedEmail ? "✓ Copied!" : "Copy"}
+                    </button>
+                    <a
+                      href={`mailto:${developerInfo.email}`}
+                      className="px-3 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 text-xs font-mono border border-amber-500/40 transition-colors text-center"
+                    >
+                      Mailto
+                    </a>
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center gap-3">
+                  <span className="w-3 h-3 rounded-full bg-emerald-400 animate-ping" />
+                  <div className="text-xs">
+                    <span className="font-bold text-emerald-300">Open for Immediate Voyage:</span>
+                    <span className="text-slate-300 ml-1">AI/ML Engineer, Full-Stack Developer, or Software Engineering Roles.</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="lg:col-span-7">
+                <div className="rounded-3xl bg-slate-900/80 border border-amber-500/30 p-6 sm:p-8 backdrop-blur-xl shadow-2xl">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-10 h-10 rounded-full bg-amber-500/20 border border-amber-400 flex items-center justify-center text-xl">
+                      🐚
+                    </div>
+                    <div>
+                      <h4 className="text-lg font-serif font-bold text-amber-200">
+                        Transponder Snail (Den Den Mushi)
+                      </h4>
+                      <p className="text-xs font-mono text-slate-400">
+                        Puru-puru-puru... transmit your message directly
+                      </p>
+                    </div>
+                  </div>
+
+                  {formSent ? (
+                    <div className="p-8 rounded-2xl bg-amber-500/10 border border-amber-400/40 text-center space-y-4">
+                      <div className="text-4xl animate-bounce">📡✨</div>
+                      <h4 className="text-xl font-serif font-black text-amber-200">
+                        Transmission Dispatched to the Thousand Sunny!
+                      </h4>
+                      <p className="text-sm text-slate-300 font-light max-w-md mx-auto">
+                        Thank you for reaching out, {formState.name || 'Nakama'}! Aditya will review your signal and contact you promptly at {formState.email || 'your email'}.
+                      </p>
+                      <button
+                        onClick={() => setFormSent(false)}
+                        className="px-5 py-2 rounded-xl bg-slate-800 text-amber-300 text-xs font-mono border border-slate-700 hover:bg-slate-700 transition-colors"
+                      >
+                        Send Another Transmission
+                      </button>
+                    </div>
+                  ) : (
+                    <form onSubmit={handleSendMessage} className="space-y-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-xs font-mono text-amber-300/80 uppercase mb-1">
+                            Your Name / Crew
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            value={formState.name}
+                            onChange={(e) => setFormState({ ...formState, name: e.target.value })}
+                            placeholder="e.g. Captain Monkey, Recruiter, Client"
+                            className="w-full px-4 py-2.5 rounded-xl bg-slate-950/80 border border-slate-800 focus:border-amber-400 focus:outline-none text-sm text-white placeholder-slate-500 transition-colors"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-mono text-amber-300/80 uppercase mb-1">
+                            Your Email
+                          </label>
+                          <input
+                            type="email"
+                            required
+                            value={formState.email}
+                            onChange={(e) => setFormState({ ...formState, email: e.target.value })}
+                            placeholder="your.email@domain.com"
+                            className="w-full px-4 py-2.5 rounded-xl bg-slate-950/80 border border-slate-800 focus:border-amber-400 focus:outline-none text-sm text-white placeholder-slate-500 transition-colors"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-xs font-mono text-amber-300/80 uppercase mb-1">
+                          Voyage Proposal / Message
+                        </label>
+                        <textarea
+                          rows={4}
+                          required
+                          value={formState.message}
+                          onChange={(e) => setFormState({ ...formState, message: e.target.value })}
+                          placeholder="Tell me about your team, project idea, or open roles..."
+                          className="w-full px-4 py-2.5 rounded-xl bg-slate-950/80 border border-slate-800 focus:border-amber-400 focus:outline-none text-sm text-white placeholder-slate-500 transition-colors resize-none"
+                        />
+                      </div>
+
+                      <button
+                        type="submit"
+                        className="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-400 hover:to-orange-500 text-slate-950 font-serif font-black text-sm tracking-wide shadow-lg hover:shadow-amber-500/40 transition-all active:scale-[0.99] flex items-center justify-center gap-2"
+                      >
+                        <span>Transmit Signal (Den Den Mushi)</span>
+                        <span>🐚⚡</span>
+                      </button>
+                    </form>
+                  )}
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+      );
+    };
+
+    // ==========================================
+    // 12. FOOTER
+    // ==========================================
+    const Footer = () => {
+      const scrollToTop = () => {
+        soundManager.playClick();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      };
+
+      return (
+        <footer className="relative bg-[#060A14] border-t border-amber-500/20 py-12 text-slate-400 text-xs overflow-hidden">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-3">
+              <LogPoseIcon className="w-6 h-6 text-amber-400" />
+              <div>
+                <p className="font-serif font-black text-sm text-amber-200">
+                  {developerInfo.name.toUpperCase()} • GRAND LINE FLEET
+                </p>
+                <p className="text-[11px] font-mono text-slate-500">
+                  Forged with React, Tailwind, and Web Audio • One Piece Artistry
+                </p>
+              </div>
+            </div>
+
+            <div className="text-center md:text-left font-serif italic text-slate-400 text-xs max-w-sm">
+              "Inherited Will, The Swell of the Age, and The Dreams of Its People — These are things that will never be stopped."
+            </div>
+
+            <div className="flex items-center gap-4">
+              <a href={developerInfo.github} target="_blank" rel="noopener noreferrer" className="hover:text-amber-300 transition-colors">
+                GitHub
+              </a>
+              <span>•</span>
+              <a href={developerInfo.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-amber-300 transition-colors">
+                LinkedIn
+              </a>
+              <span>•</span>
+              <button
+                onClick={scrollToTop}
+                className="p-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-400/50 text-amber-300 font-mono text-[11px] transition-colors flex items-center gap-1"
+              >
+                <span>Top</span>
+                <span>↑</span>
+              </button>
+            </div>
+          </div>
+        </footer>
+      );
+    };
+
+    // ==========================================
+    // 13. MASTER ROOT APP COMPONENT
+    // ==========================================
+    const App = () => {
+      return (
+        <div className="min-h-screen bg-[#080D1A] text-slate-100 font-sans selection:bg-amber-500 selection:text-slate-950 relative overflow-x-hidden">
+          <Navbar />
+          <main>
+            <HeroCaptain />
+            <GrandLineAbout />
+            <ZoroDojo />
+            <SanjiKitchen />
+            <CrewContact />
+          </main>
+          <LuffyStretchingArm />
+          <Footer />
+        </div>
+      );
+    };
+
+    // Mount to DOM
+    const rootElement = document.getElementById('root');
+    ReactDOM.createRoot(rootElement).render(<App />);
+  </script>
+</body>
+</html>
